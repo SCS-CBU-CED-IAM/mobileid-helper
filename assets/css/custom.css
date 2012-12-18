@@ -1,0 +1,4 @@
+/* Css example */
+body{width:100%;}
+div#container{margin:30px 30px auto;}
+#msg_wait,#msg_result,#msg_error,#msg_form{display:none;}
