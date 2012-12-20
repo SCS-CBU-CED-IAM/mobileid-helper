@@ -36,7 +36,7 @@ $mobileIdRequest = new mobileid($request->mid_phone, $request->mid_msg, $request
 $mobileIdRequest->sendRequest();
 
 if ($mobileIdRequest->response_error) {
-	setMobileIdError($mobileIdRequest, $app);
+	setMobileIdError($mobileIdRequest, $app, $request->mid_lang);
 	return;
 }
 
@@ -48,7 +48,7 @@ echo $app->getText('APP_SUBMIT_SUCCESS');
 * @return 	false
 */
 
-function setMobileIdError($mobileIdRequest, $app) {
+function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
 
 	if ($mobileIdRequest->response_error_type == 'warning') {
 		$warning_code = array("105", "401", "402", "403", "404", "406", "422");
@@ -60,19 +60,26 @@ function setMobileIdError($mobileIdRequest, $app) {
 		if ($mobileIdRequest->response_status_code == '100' && in_array($mobileIdRequest->response_status_subcode, $warning_code)) {
 			$msg_prob = $app->getText('APP_ERROR_'.$mobileIdRequest->response_status_code.'_'.$mobileIdRequest->response_status_subcode);			
 		}
+		
+		$support_url = $mobileIdRequest->getSupportUrl().'/'.$lang.'/'.$mobileIdRequest->response_status_code.'-'.$mobileIdRequest->response_status_subcode;
+		
+		$support_txt = str_replace('%s', $support_url, $app->getText('APP_ERROR_WARNING_SOLUTION'));
+		$support_txt = str_replace('%t', $support_url, $support_txt);
 
 		$msg  = "<p>".$app->getText('APP_ERROR_WARNING')."</p>";
 		$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
-		$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$app->getText('APP_ERROR_WARNING_SOLUTION')."</p>";
+		$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$support_txt."</p>";
 		
+		/*
 		$msg .= '<form id="send_form" action="'.$mobileIdRequest->getSupportUrl().'" method="POST">';
 		$msg .=	'	<input type="hidden" id="sprache" value="'.$request->mid_lang.'" />';
 		$msg .=	'	<input type="hidden" id="mss_status_code" value="'.$mobileIdRequest->response_status_code.'" />';
 		$msg .=	'	<input type="hidden" id="sub_code" value="'.$mobileIdRequest->response_status_subcode.'" />';
 		$msg .=	'	<div class="form-actions">';
-		$msg .=	'		<input type="submit" id="send_form_button" value="'.$app->getText('APP_SUBMIT_SUPPORT').'" class="btn" />';
+		$msg .=	'		<a href="'..'" target="_blank"><input type="button" id="send_form_button" value="'.$app->getText('APP_SUBMIT_SUPPORT').'" class="btn" /></a>';
 		$msg .=	'	</div>';
 		$msg .=	'</form>';
+		*/
 
 		echo $msg;
 
