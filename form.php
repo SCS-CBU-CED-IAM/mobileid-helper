@@ -57,8 +57,8 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
 			$msg_prob = $app->getText('APP_ERROR_'.$mobileIdRequest->response_status_code);
 		}
 
-		if ($mobileIdRequest->response_status_code == '100' && in_array($mobileIdRequest->response_status_subcode, $warning_code)) {
-			$msg_prob = $app->getText('APP_ERROR_'.$mobileIdRequest->response_status_code.'_'.$mobileIdRequest->response_status_subcode);			
+		if (in_array($mobileIdRequest->response_status_subcode, $warning_code)) {
+			$msg_prob = $app->getText('APP_ERROR_'.$mobileIdRequest->response_status_subcode);			
 		}
 		
 		$support_url = $mobileIdRequest->getSupportUrl().'/'.$lang.'/'.$mobileIdRequest->response_status_code.'-'.$mobileIdRequest->response_status_subcode;
@@ -70,17 +70,6 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
 		$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
 		$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$support_txt."</p>";
 		
-		/*
-		$msg .= '<form id="send_form" action="'.$mobileIdRequest->getSupportUrl().'" method="POST">';
-		$msg .=	'	<input type="hidden" id="sprache" value="'.$request->mid_lang.'" />';
-		$msg .=	'	<input type="hidden" id="mss_status_code" value="'.$mobileIdRequest->response_status_code.'" />';
-		$msg .=	'	<input type="hidden" id="sub_code" value="'.$mobileIdRequest->response_status_subcode.'" />';
-		$msg .=	'	<div class="form-actions">';
-		$msg .=	'		<a href="'..'" target="_blank"><input type="button" id="send_form_button" value="'.$app->getText('APP_SUBMIT_SUPPORT').'" class="btn" /></a>';
-		$msg .=	'	</div>';
-		$msg .=	'</form>';
-		*/
-
 		echo $msg;
 
 		header('Status : 401 '.$msg);
@@ -90,7 +79,13 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
 	}	
 	
 	$msg  = "<p>".$app->getText('APP_ERROR_DEFAULT')."</p>";
-	$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$app->getText('APP_ERROR_'.$mobileIdRequest->response_status_code)."</p>";
+	
+	if ($mobileIdRequest->response_status_subcode) {
+		$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$app->getText('APP_ERROR_'.$mobileIdRequest->response_status_subcode)."</p>";
+	} else {
+		$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$app->getText('APP_ERROR_'.$mobileIdRequest->response_status_code)."</p>";
+	}
+
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$mobileIdRequest->response_status_code."/etsi:_".$mobileIdRequest->response_status_subcode." -> ".$mobileIdRequest->response_message."</p>";
 
 	echo $msg;

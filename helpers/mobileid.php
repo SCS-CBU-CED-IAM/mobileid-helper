@@ -538,15 +538,11 @@ class mobileid {
 	*/
 	private function setResponseError() {
 		
-		$subcode = $this->setResponseErrorSubCode();
-
-		if (!$subcode) {
+		if (!$this->setResponseErrorSubCode()) {
 			return;
 		}
 		
-		$message = $this->setResponseErrorMessage();
-
-		if (!$message) {
+		if (!$this->setResponseErrorMessage()) {
 			return;
 		}
 
