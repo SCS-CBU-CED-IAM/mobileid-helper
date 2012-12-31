@@ -99,10 +99,11 @@ function prepareSubmit() {
 function submitFormValues() {
 	
 	// Prepare the ajax/json request
-	var phone = jQuery('#mid_phone').val();
-	var lang  = jQuery('input:radio[name=mid_lang]:checked').val();
+	var mid_lang = jQuery('input:radio[name=mid_lang]:checked').val();
+	var phone    = jQuery('#mid_phone').val();
+	var lang     = jQuery('#mid_lang_default').val();
 	
-	var jsonRequest = '{"mid_phone":"'+phone+'","mid_lang":"'+lang+'"}';
+	var jsonRequest = '{"mid_phone":"'+phone+'","mid_lang":"'+mid_lang+'"}';
 	var ajax_url;
 	
 	ajax_url = 'form.php?request='+jsonRequest;
