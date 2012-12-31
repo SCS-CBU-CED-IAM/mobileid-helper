@@ -100,10 +100,9 @@ function submitFormValues() {
 	
 	// Prepare the ajax/json request
 	var phone = jQuery('#mid_phone').val();
-	var msg   = jQuery('#mid_msg').val();
 	var lang  = jQuery('input:radio[name=mid_lang]:checked').val();
 	
-	var jsonRequest = '{"mid_phone":"'+phone+'","mid_msg":"'+msg+'","mid_lang":"'+lang+'"}';
+	var jsonRequest = '{"mid_phone":"'+phone+'","mid_lang":"'+lang+'"}';
 	var ajax_url;
 	
 	ajax_url = 'form.php?request='+jsonRequest;
@@ -112,7 +111,7 @@ function submitFormValues() {
 	jQuery.ajax({
 		url: ajax_url,
 		success: function(data) {
-			jQuery('#msg_result').addClass('alert alert-success');
+			jQuery('#msg_result').addClass('success');
 			jQuery('#msg_result').html(data);
 
 			jQuery('#msg_result').show();
@@ -120,12 +119,12 @@ function submitFormValues() {
 		},
 		error: function(data) {
 			if (data.status == '400') {
-				jQuery('#msg_result').addClass('alert alert-error');
+				jQuery('#msg_result').addClass('error');
 				jQuery('#msg_result').html(data.statusText);
 			}
 
 			if (data.status == '401') {
-				jQuery('#msg_result').addClass('alert alert-warning');
+				jQuery('#msg_result').addClass('warning');
 				jQuery('#msg_result').html(data.statusText);
 			}
 

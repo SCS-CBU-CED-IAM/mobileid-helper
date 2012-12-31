@@ -30,10 +30,13 @@ if ($request->mid_phone[0] == ' ') {
 $app = new mobileid_app();
 
 /* New instance of the mobileID class */
-$mobileIdRequest = new mobileid($request->mid_phone, $request->mid_msg, $request->mid_lang);
+$mobileIdRequest = new mobileid($request->mid_phone, $request->mid_lang);
 
 /* Send the request */
 $mobileIdRequest->sendRequest();
+
+//var_dump($mobileIdRequest);
+//exit();
 
 if ($mobileIdRequest->response_error) {
 	setMobileIdError($mobileIdRequest, $app, $request->mid_lang);
@@ -50,21 +53,17 @@ echo $app->getText('APP_SUBMIT_SUCCESS');
 
 function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
 
+	if (strlen($mobileIdRequest->response_mss_status_code)) {
+		$msg_prob    = $app->getText('APP_ERROR_'.$mobileIdRequest->response_mss_status_code);
+		$support_txt = $app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_mss_status_code);
+	}
+
+	if (strlen($mobileIdRequest->response_soap_fault_subcode)) {
+		$msg_prob    = $app->getText('APP_ERROR_'.$mobileIdRequest->response_soap_fault_subcode);			
+		$support_txt = $app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_soap_fault_subcode);
+	}
+
 	if ($mobileIdRequest->response_error_type == 'warning') {
-		$warning_code = array("105", "401", "402", "403", "404", "406", "422");
-
-		if ($mobileIdRequest->response_status_code == '501' || $mobileIdRequest->response_status_code == '503') {
-			$msg_prob = $app->getText('APP_ERROR_'.$mobileIdRequest->response_status_code);
-		}
-
-		if (in_array($mobileIdRequest->response_status_subcode, $warning_code)) {
-			$msg_prob = $app->getText('APP_ERROR_'.$mobileIdRequest->response_status_subcode);			
-		}
-		
-		$support_url = $mobileIdRequest->getSupportUrl().'/'.$lang.'/'.$mobileIdRequest->response_status_code.'-'.$mobileIdRequest->response_status_subcode;
-		
-		$support_txt = str_replace('%s', $support_url, $app->getText('APP_ERROR_WARNING_SOLUTION'));
-		$support_txt = str_replace('%t', $support_url, $support_txt);
 
 		$msg  = "<p>".$app->getText('APP_ERROR_WARNING')."</p>";
 		$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
@@ -78,15 +77,9 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
 		return;	
 	}	
 	
-	$msg  = "<p>".$app->getText('APP_ERROR_DEFAULT')."</p>";
-	
-	if ($mobileIdRequest->response_status_subcode) {
-		$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$app->getText('APP_ERROR_'.$mobileIdRequest->response_status_subcode)."</p>";
-	} else {
-		$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$app->getText('APP_ERROR_'.$mobileIdRequest->response_status_code)."</p>";
-	}
-
-	$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$mobileIdRequest->response_status_code."/etsi:_".$mobileIdRequest->response_status_subcode." -> ".$mobileIdRequest->response_message."</p>";
+	$msg  = "<p>".$app->getText('APP_ERROR_DEFAULT')."</p>";	
+	$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
+	$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$mobileIdRequest->response_mss_status_code."/etsi:_".$mobileIdRequest->response_soap_fault_subcode." -> ".$mobileIdRequest->response_status_message."</p>";
 
 	echo $msg;
 	

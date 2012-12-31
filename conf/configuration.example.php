@@ -22,7 +22,10 @@ class mobileIdConfig {
 	//public $TimeOutWSRequest  = 90;													// Not mandatory
 	//public $TimeOutMIDRequest = 80;													// Not mandatory
 
-	/* URL for sending the problem request */
-	public $support_url = "http://www.swisscom.ch/mobileid/fehler";
+	/* Request messages  */
+	public $mid_msg_de = "Erlauben Sie das testen Ihrer Mobile ID ?";
+	public $mid_msg_en = "Allow testing of your Mobile ID?";
+	public $mid_msg_fr = "Authoriser le test de la Mobile ID ?";
+	public $mid_msg_it = "Allow testing of your Mobile ID?";
 }
 ?>

@@ -2,3 +2,8 @@
 body{width:100%;}
 div#container{margin:30px 30px auto;}
 #msg_wait,#msg_result,#msg_error,#msg_form{display:none;}
+h1{margin:0 0 30px;}
+.success{background-image:url(../img/circle_green.png);}
+.warning{background-image:url(../img/circle_yellow.png);}
+.error{background-image:url(../img/circle_red.png);}
+.success,.warning,.error{background-repeat:no-repeat;padding:0 0 0 72px;min-height:64px;}

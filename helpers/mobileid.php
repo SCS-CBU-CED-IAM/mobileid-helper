@@ -45,7 +45,11 @@ class mobileid {
 	protected $MobileUser;				// Phone number
 	protected $DataToBeSigned;			// Messsage
 	
-	public $support_url;
+	/* Request messages  */
+	public $mid_msg_de;					// German
+	public $mid_msg_en;					// English
+	public $mid_msg_fr;					// French
+	public $mid_msg_it;					// Italian
 
 	/* Soap request */
 	protected $soap_request;			// Soap request
@@ -73,16 +77,16 @@ class mobileid {
 	/* Response logs */
 	public $response_error = false;		 	// Error
 	public $response_error_type = false;	// Type of error, warning or error
-	public $response_status_code;			// Status code
-	public $response_status_subcode;		// Status subcode
-	public $response_message;				// Message
+	public $response_mss_status_code;		// MSS Status code
+	public $response_soap_fault_subcode;	// Soap fault subcode
+	public $response_status_message;		// Status Message
 
 	/**
 	* Mobileid class
 	*
 	*/
 
-	public function __construct($MobileUser, $DataToBeSigned, $UserLang = 'en') {
+	public function __construct($MobileUser, $UserLang = 'en', $DataToBeSigned = '') {
 
 		/* Check the server requirements */
 		if (!$this->checkRequirements()) {
@@ -95,7 +99,7 @@ class mobileid {
 		}
 		
 		/* Set the application parameters */
-		if (!$this->setParameters($MobileUser, $DataToBeSigned, $UserLang)) {
+		if (!$this->setParameters($MobileUser, $UserLang, $DataToBeSigned)) {
 			return;
 		}
 		
@@ -154,16 +158,28 @@ class mobileid {
 		$this->ws_action   = $this->mobileIdConfig->ws_action;
 		$this->support_url = $this->mobileIdConfig->support_url;
 
-		if (strlen($this->mobileIdConfig->ocsp_url)) {
-			$this->ocsp_url = $this->mobileIdConfig->ocsp_url;
-		}
-
 		if ($this->mobileIdConfig->TimeOutWSRequest) {
 			$this->TimeOutWSRequest = (int)$this->mobileIdConfig->TimeOutWSRequest;
 		}
 
 		if ($this->mobileIdConfig->TimeOutMIDRequest) {
 			$this->TimeOutMIDRequest = (int)$this->mobileIdConfig->TimeOutMIDRequest;
+		}
+
+		if (strlen($this->mobileIdConfig->mid_msg_de)) {
+			$this->mid_msg_de = $this->mobileIdConfig->mid_msg_de;
+		}
+
+		if (strlen($this->mobileIdConfig->mid_msg_en)) {
+			$this->mid_msg_en = $this->mobileIdConfig->mid_msg_en;
+		}
+
+		if (strlen($this->mobileIdConfig->mid_msg_fr)) {
+			$this->mid_msg_fr = $this->mobileIdConfig->mid_msg_fr;
+		}
+
+		if (strlen($this->mobileIdConfig->mid_msg_it)) {
+			$this->mid_msg_it = $this->mobileIdConfig->mid_msg_it;
 		}
 		
 		return true;
@@ -215,49 +231,112 @@ class mobileid {
 			$this->setError('No WS Action configured!');
 			return;
 		}
-
-		if (!strlen($this->mobileIdConfig->support_url)) {
-			$this->setError('No Support URL configured!');
-			return;
-		}
 		
 		return true;
-	}
-
-	/**
-	* Mobileid get the support URL
-	*
-	* @return 	boolean	true on success, false on failure
-	*/
-
-	public function getSupportUrl() {
-		return $this->support_url;
 	}
 	
 	/**
 	* Mobileid set the parameters
 	*
 	* #params	string phone_number
-	* #params	string message
 	* #params	string language_code
+	* #params	string message
 	* @return 	boolean	true on success, false on failure
 	*/
-	public function setParameters($MobileUser, $DataToBeSigned, $UserLang = 'en') {
+	public function setParameters($MobileUser, $UserLang = 'en', $DataToBeSigned = '') {
 
-		if (!strlen($MobileUser) || !strlen($DataToBeSigned)) {
-			$this->setError('Empty parameters!');
+		if (!strlen($MobileUser)) {
+			$this->setError('No mobile user defined!');
 			return;
 		}
-		
+
 		/* Set the parameters */
-		$this->MobileUser      = $MobileUser;
-		$this->DataToBeSigned  = $DataToBeSigned;
-		$this->UserLang        = $UserLang;
+		$this->UserLang   = $UserLang;
+		$this->MobileUser = $MobileUser;
+
+		if (!strlen($DataToBeSigned)) {
+			if (!$this->setDataToBeSigned()) {
+				return;				
+			}
+		} else {
+			$this->DataToBeSigned = $DataToBeSigned;
+		}
 
 		if (!$this->checkMobileUser()) {
 			return;
 		}
 
+		if (!$this->setMobileUser()) {
+			return;
+		}
+
+		return true;
+	}
+
+	/**
+	* Mobileid set the parameters
+	*
+	* @return 	boolean	true on success, false on failure
+	*/
+	private function setDataToBeSigned() {
+
+		if (!$this->checkDataToBeSigned()) {
+			return;				
+		}
+
+		switch($this->UserLang) {
+		case 'de':
+			$this->DataToBeSigned = $this->mid_msg_de;
+			break;
+
+		case 'en':
+			$this->DataToBeSigned = $this->mid_msg_en;
+			break;
+
+		case 'fr':
+			$this->DataToBeSigned = $this->mid_msg_fr;
+			break;
+
+		case 'it':
+			$this->DataToBeSigned = $this->mid_msg_it;
+			break;
+		}
+		
+		return true;
+	}
+
+	/**
+	* Mobileid set the parameters
+	*
+	* @return 	boolean	true on success, false on failure
+	*/
+	private function checkDataToBeSigned() {
+
+		if (!strlen($this->UserLang)) {
+			$this->setError('No user language defined!');
+			return;
+		}
+		
+		if (!strlen($this->mid_msg_de)) {
+			$this->setError('No german data to be signed defined!');
+			return;
+		}
+
+		if (!strlen($this->mid_msg_en)) {
+			$this->setError('No english data to be signed defined!');
+			return;
+		}
+
+		if (!strlen($this->mid_msg_fr)) {
+			$this->setError('No french data to be signed defined!');
+			return;
+		}
+
+		if (!strlen($this->mid_msg_it)) {
+			$this->setError('No italian data to be signed defined!');
+			return;
+		}
+		
 		return true;
 	}
 
@@ -293,6 +372,25 @@ class mobileid {
 			return;
 		}
 
+		return true;
+	}
+
+	/**
+	* Mobileid check the mobile phone according to Swisscom rules
+	*
+	* @return 	boolean	true on success, false on failure
+	*/
+	private function setMobileUser() {
+		
+		if ($this->MobileUser[0].$this->MobileUser[1] == '00') {
+			$this->MobileUser = str_replace('00', '+', $this->MobileUser);
+		}
+		
+		if ($this->MobileUser[0] == '0' && $this->MobileUser[1] != '0') {
+			$this->MobileUser[0] = '';
+			$this->MobileUser = '+41'.trim($this->MobileUser);
+		}
+		
 		return true;
 	}
 
@@ -466,9 +564,9 @@ class mobileid {
 		}
 
 		/* Soap request response is an error */
-		if ($this->soap_response_status != 200) {
+		if (!$this->isResponseRequestSuccess()) {
 			$this->setResponseError();
-			return;
+			return;			
 		}
 		
 		/* Set the response Datas */
@@ -532,6 +630,22 @@ class mobileid {
 	}
 
 	/**
+	* Mobileid check the soap request response, to test if the request is valid or not
+	*
+	* @return 	boolean	true on success, false on failure
+	*/
+	private function isResponseRequestSuccess() {
+		
+		$fault = (string)$this->soap_response_simple_xml->soapenvBody->soapenvFault->soapenvCode->soapenvSubcode->soapenvValue;
+		
+		if (strlen($fault)) {
+			return;
+		}
+		
+		return true;
+	}	
+
+	/**
 	* Mobileid set the error of the soap request
 	*
 	* @return 	true
@@ -546,7 +660,7 @@ class mobileid {
 			return;
 		}
 
-		return $this->setError($this->response_message, $this->soap_response_status, $this->response_status_subcode);
+		return $this->setError($this->response_status_message);
 	}
 
 	/**
@@ -570,9 +684,9 @@ class mobileid {
 		
 		$array_tmp = explode('_', $subcode);
 		
-		$this->response_status_subcode = $array_tmp[1];
+		$this->response_soap_fault_subcode = $array_tmp[1];
 		
-		if (!strlen($this->response_status_subcode)) {
+		if (!strlen($this->response_soap_fault_subcode)) {
 			$this->setError('Can not get the subcode!');
 			return;
 		}
@@ -587,9 +701,9 @@ class mobileid {
 	*/
 	private function setResponseErrorMessage() {
 		
-		$this->response_message = (string)$this->soap_response_simple_xml->soapenvBody->soapenvFault->soapenvReason->soapenvText;
+		$this->response_status_message = (string)$this->soap_response_simple_xml->soapenvBody->soapenvFault->soapenvReason->soapenvText;
 		
-		if (!strlen($this->response_message)) {
+		if (!strlen($this->response_status_message)) {
 			$this->setError('No response error message found!.');
 			return;			
 		}
@@ -612,11 +726,11 @@ class mobileid {
 			return;
 		}
 
-		if (!$this->setResponseStatusCode()) {
+		if (!$this->setResponseMessage()) {
 			return;
 		}
 
-		if (!$this->setResponseMessage()) {
+		if (!$this->setResponseMssStatusCode()) {
 			return;
 		}
 		
@@ -658,23 +772,6 @@ class mobileid {
 	}
 
 	/**
-	* Mobileid set the status code
-	*
-	* @return 	simpleXML objet
-	*/
-	private function setResponseStatusCode() {
-		
-		$this->response_status_code = (string)$this->soap_response_simple_xml->soapenvBody->MSS_SignatureResponse->mssMSS_SignatureResp->mssStatus->mssStatusCode["Value"];
-		
-		if (!strlen($this->response_status_code)) {
-			$this->setError('No response status code found!.');
-			return;			
-		}
-		
-		return true;
-	}
-
-	/**
 	* Mobileid set the response message
 	*
 	* @return 	simpleXML objet
@@ -686,6 +783,42 @@ class mobileid {
 		if (!strlen($this->data_response_message)) {
 			$this->setError('No response message found!.');
 			return;			
+		}
+		
+		return true;
+	}
+
+	/**
+	* Mobileid set the status code
+	*
+	* @return 	simpleXML objet
+	*/
+	private function setResponseMssStatusCode() {
+		
+		$this->response_mss_status_code = (string)$this->soap_response_simple_xml->soapenvBody->MSS_SignatureResponse->mssMSS_SignatureResp->mssStatus->mssStatusCode["Value"];
+		
+		if (!strlen($this->response_mss_status_code)) {
+			$this->setError('No response MSS status code found!.');
+			return;			
+		}
+		
+		if (!$this->checkResponseMssStatusCode()) {
+			$this->setError($this->data_response_message);
+			return;
+		}
+		
+		return true;
+	}
+
+	/**
+	* Mobileid check the mss status code
+	*
+	* @return 	boolean	true on success, false on failure
+	*/
+	private function checkResponseMssStatusCode() {
+		
+		if ($this->response_mss_status_code == '501' || $this->response_mss_status_code == '503' ) {
+			return;
 		}
 		
 		return true;
@@ -860,31 +993,23 @@ class mobileid {
 	*
 	* @return 	boolean	true on success, false on failure
 	*/
-	private function setError($msg, $status_code = false, $status_subcode = false) {
+	private function setError($msg, $error_type = 'error') {
 		
 		if (!strlen($msg)) {
 			return;
 		}
-		
-		$warning_code = array("105", "401", "402", "403", "404", "406", "422");
 
-		$this->response_error      = true;
-		$this->response_message    = $msg;
-		$this->response_error_type = 'error';
-		
-		if (strlen($status_code)) {
-			$this->response_status_code = $status_code;
-		}
+		$this->response_error          = true;
+		$this->response_status_message = $msg;
+		$this->response_error_type     = $error_type;
 
-		if (strlen($status_subcode)) {
-			$this->response_status_subcode = $status_subcode;
-		}
-		
-		if ($this->response_status_code == '501' || $this->response_status_code == '503' ) {
+		if ($this->response_mss_status_code == '501' || $this->response_mss_status_code == '503' ) {
 			$this->response_error_type = 'warning';
 		}
 
-		if ($this->response_status_code == '100' && in_array($this->response_status_subcode, $warning_code)) {
+		$warning_code = array("105", "401", "402", "403", "404", "406", "422");
+
+		if (in_array($this->response_soap_fault_subcode, $warning_code)) {
 			$this->response_error_type = 'warning';
 		}
 		
@@ -938,7 +1063,7 @@ class mobileid {
 		
 		$this->response_error = false;
 		$this->response_error_type = false;
-		$this->response_message = 'Signed data verified!';
+		$this->response_status_message = 'Signed data verified!';
 
 		return true;		
 	}
