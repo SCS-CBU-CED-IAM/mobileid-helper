@@ -16,6 +16,7 @@ jQuery(document).ready(function() {
 	// Submit the form
 	jQuery('#submit_btn_send').click(function() {
 		if (!validatePhone()) {
+			jQuery('#msg_result').hide();
 			jQuery('#msg_error').show();
 			return;
 		}
@@ -27,6 +28,7 @@ jQuery(document).ready(function() {
 	jQuery("#container").bind("keypress", function(e) {
 		if (e.keyCode == 13) {
 			if (!validatePhone()) {
+				jQuery('#msg_result').hide();
 				jQuery('#msg_error').show();
 				return false;
 			}
@@ -85,9 +87,6 @@ function setRemoveFormValues() {
 	// Check the default language
 	jQuery('input[name="mid_lang"]').prop('checked', false);
 	jQuery("#mid_lang_"+jQuery('#mid_lang_default').val()).trigger("click");
-	
-	// Enable submit button
-	jQuery('#submit_btn_send').removeAttr('disabled');
 }
 
 function prepareSubmit() {
@@ -95,10 +94,7 @@ function prepareSubmit() {
 	// Show waiting message
 	jQuery('#msg_wait').show();
 	jQuery('#msg_error').hide();
-	jQuery('#msg_result').hide();
-	
-	// Disable submit button
-	jQuery('#submit_btn_send').attr("disabled", "true");
+	jQuery('#msg_result').hide();	
 }
 
 function submitFormValues() {
