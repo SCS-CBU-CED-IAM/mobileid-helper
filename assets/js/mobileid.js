@@ -15,7 +15,6 @@ jQuery(document).ready(function() {
 
 	// Submit the form
 	jQuery('#submit_btn_send').click(function() {
-
 		if (!validatePhone()) {
 			jQuery('#msg_error').show();
 			return;
@@ -25,16 +24,17 @@ jQuery(document).ready(function() {
 		submitFormValues();
 	});
 	
-	jQuery('#container').keyup(function(e) {
-		
-		if(e.keyCode == 13) {
+	jQuery("#container").bind("keypress", function(e) {
+		if (e.keyCode == 13) {
 			if (!validatePhone()) {
 				jQuery('#msg_error').show();
-				return;
+				return false;
 			}
 
 			prepareSubmit();
 			submitFormValues();
+			
+			return false;
 		}
 	});
 });
