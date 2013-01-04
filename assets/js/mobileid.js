@@ -72,6 +72,11 @@ function setRemoveFormValues() {
 	// Set form field empty
 	jQuery('#mid_phone').val('');
 	
+	// Remove class for message result
+	jQuery("#msg_result").removeClass("success");
+	jQuery("#msg_result").removeClass("error");
+	jQuery("#msg_result").removeClass("warning");
+	
 	// Hide waiting, error & result messages
 	jQuery('#msg_wait').hide();
 	jQuery('#msg_error').hide();
