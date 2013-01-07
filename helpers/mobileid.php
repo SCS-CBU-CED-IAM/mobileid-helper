@@ -347,7 +347,7 @@ class mobileid {
 	*/
 	private function checkMobileUser() {
 		
-		if (strlen($this->MobileUser) < 9) {
+		if (strlen($this->MobileUser) < 10) {
 			$this->setError('Not a valid mobile user!');
 			return;
 		}
@@ -357,17 +357,17 @@ class mobileid {
 			return;
 		}
 
-		if ($this->MobileUser[0].$this->MobileUser[1] == '00' && strlen($this->MobileUser) != 13) {
+		if ($this->MobileUser[0].$this->MobileUser[1] == '00' && strlen($this->MobileUser) < 12) {
 			$this->setError('Not a valid mobile user!');
 			return;
 		}
 
-		if ($this->MobileUser[0] == '+' && strlen($this->MobileUser) != 12) {
+		if ($this->MobileUser[0] == '+' && strlen($this->MobileUser) < 12) {
 			$this->setError('Not a valid mobile user!');
 			return;
 		}
 
-		if ($this->MobileUser[0] == '0' && $this->MobileUser[1] != '0' && strlen($this->MobileUser) != 10) {
+		if ($this->MobileUser[0] == '0' && $this->MobileUser[1] != '0' && strlen($this->MobileUser) < 10) {
 			$this->setError('Not a valid mobile user!');
 			return;
 		}
