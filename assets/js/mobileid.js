@@ -34,7 +34,7 @@ jQuery(document).ready(function() {
 			}
 
 			prepareSubmit();
-			submitFormValues();
+			submitFormValues();			
 			
 			return false;
 		}
@@ -95,10 +95,20 @@ function prepareSubmit() {
 	jQuery('#msg_wait').show();
 	jQuery('#msg_error').hide();
 	jQuery('#msg_result').hide();	
+
+	// Disable submit and clear button
+	jQuery('#submit_btn_remove').attr("disabled", "true");
+	jQuery('#submit_btn_send').attr("disabled", "true");
+}
+
+function endSubmit() {
+	// Enable submit and clear button
+	jQuery('#submit_btn_remove').removeAttr('disabled');
+	jQuery('#submit_btn_send').removeAttr('disabled');
 }
 
 function submitFormValues() {
-	
+		
 	// Prepare the ajax/json request
 	var mid_lang = jQuery('input:radio[name=mid_lang]:checked').val();
 	var phone    = jQuery('#mid_phone').val();
@@ -118,6 +128,8 @@ function submitFormValues() {
 
 			jQuery('#msg_result').show();
 			jQuery('#msg_wait').hide();
+			
+			endSubmit();
 		},
 		error: function(data) {
 			if (data.status == '400') {
@@ -132,6 +144,8 @@ function submitFormValues() {
 
 			jQuery('#msg_result').show();
 			jQuery('#msg_wait').hide();
+			
+			endSubmit();
 		}
-	});
+	});	
 }
