@@ -59,7 +59,11 @@ class mobileid {
 	protected $soap_response_status;		// Response Soap request status
 	protected $soap_response_simple_xml;	// Response in SimpleXML Object
 	protected $soap_response_pkcs7;			// Signed signature, PKCS7 format
-
+	
+	/* Curl response */
+	protected $curl_errno;				// Curl error code
+	protected $curl_error;				// Curl error message
+	
 	/* Files manipulations */
 	protected $tmp_dir;
 	protected $file_sig;
@@ -476,21 +480,42 @@ class mobileid {
 
 		/* Get the status of the response request */
 		$this->soap_response_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		
+
 		if ($this->soap_response_xml === false) {
-			$this->setError('Curl error: '.curl_error($ch));
+			$this->curl_errno = curl_errno($ch);
+			$this->curl_error = curl_error($ch);
+
+			$this->checkCurlError();
+
 			return;
 		}
 
 		/* Close curl session */
 		curl_close($ch);
-		
+
 		/* Test the response */
 		if (!$this->checkResponseRequest()) {
 			return;
 		}
 
 		return true;
+	}
+
+	/**
+	* Mobileid set the soap request
+	*
+	* @return 	boolean	true on success, false on failure
+	*/
+	private function checkCurlError() {
+		
+		// Test if we had a timeout
+		if ($this->curl_errno == '28') {
+			$this->response_soap_fault_subcode = '208';
+		}
+		
+		$this->setError($this->curl_error);
+		
+		return;
 	}
 
 	/**
@@ -1007,7 +1032,7 @@ class mobileid {
 			$this->response_error_type = 'warning';
 		}
 
-		$warning_code = array("105", "401", "402", "403", "404", "406", "422");
+		$warning_code = array("105", "208", "401", "402", "403", "404", "406", "422");
 
 		if (in_array($this->response_soap_fault_subcode, $warning_code)) {
 			$this->response_error_type = 'warning';
