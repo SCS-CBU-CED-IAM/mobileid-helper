@@ -29,27 +29,25 @@ class mobileid_app {
 			$this->language_code = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 5);
 		}
 
-		if (!strlen($this->language_code)) {
-			switch($this->language) {
-			case 'de':
-				$this->language_code = 'de-DE';
-				break;
+		switch($this->language) {
+		case 'de':
+			$this->language_code = 'de-DE';
+			break;
 
-			case 'fr':
-				$this->language_code = 'fr-FR';
-				break;
+		case 'fr':
+			$this->language_code = 'fr-FR';
+			break;
 
-			case 'it':
-				$this->language_code = 'it-IT';
-				break;
+		case 'it':
+			$this->language_code = 'it-IT';
+			break;
 
-			case 'en':
-			default:
-				$this->language_code = 'en-GB';
-				break;
-			}
+		case 'en':
+		default:
+			$this->language_code = 'en-GB';
+			break;
 		}
-		
+
 		$this->loadLanguage();
 	}
 
