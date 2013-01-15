@@ -1,9 +1,9 @@
 /**
- * @since		1.0
- * @package		mobileid_app
- * @copyright	Copyright © 2012 - All rights reserved.
- * @license		GNU/GPL
- * @author		Swisscom
+ * @version     1.0.0
+ * @package     mobileid-helper
+ * @copyright   Copyright (C) 2012. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.md
+ * @author      Swisscom (Schweiz AG)
  */
 
 jQuery(document).ready(function() {

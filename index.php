@@ -1,4 +1,12 @@
 <?php
+/**
+ * @version     1.0.0
+ * @package     mobileid-helper
+ * @copyright   Copyright (C) 2012. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.md
+ * @author      Swisscom (Schweiz AG)
+ */
+    
 define('__ROOT__', dirname(__FILE__)); 
 require_once(__ROOT__.'/helpers/app.php'); 
 $app = new mobileid_app();

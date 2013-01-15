@@ -1,10 +1,10 @@
 <?php
 /**
  * @version     1.0.0
- * @package     mobileid
- * @copyright   Copyright (C) 2011. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      Created by Verbier Technologies - http://www.verbier-technologies.ch
+ * @package     mobileid-helper
+ * @copyright   Copyright (C) 2012. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.md
+ * @author      Swisscom (Schweiz AG)
  */
 
 define('__ROOT__', dirname(__FILE__)); 
