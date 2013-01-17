@@ -35,9 +35,6 @@ $mobileIdRequest = new mobileid($request->mid_phone, $request->mid_lang);
 /* Send the request */
 $mobileIdRequest->sendRequest();
 
-//var_dump($mobileIdRequest);
-//exit();
-
 if ($mobileIdRequest->response_error) {
 	setMobileIdError($mobileIdRequest, $app, $request->mid_lang);
 	return;
