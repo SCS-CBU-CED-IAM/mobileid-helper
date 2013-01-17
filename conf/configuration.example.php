@@ -37,5 +37,8 @@ class mobileIdConfig {
 	
 	/* Allow message edition */	
 	public $mid_msg_allowedit = false;
+
+	/* Message provider */
+	public $mid_msg_service = "serviceprovider.com";
 }
 ?>

@@ -29,7 +29,7 @@ $app = new mobileid_app();
 			<div class="control-group">
 				<label class="control-label" for="mid_phone"><strong><?php echo $app->getText('APP_PHONE'); ?></strong></label>
 				<div class="controls">
-					<input type="tel" id="mid_phone" value="" required />
+					<input type="tel" id="mid_phone" required />
 				</div>
 			</div>
 			<div class="control-group">
@@ -52,15 +52,14 @@ $app = new mobileid_app();
 						<?php echo $app->getText('APP_LANG_4'); ?>
 					</label>
 				</div>
-			</div>
-			<?php if (mobileid::getMsgAllowEdit()) { ?>
+			</div>			
 			<div class="control-group">
 				<label class="control-label" for="mid_msg"><strong><?php echo $app->getText('APP_MESSAGE'); ?></strong></label>
 				<div class="controls">
-					<textarea rows="3" id="mid_msg" class="input-xlarge" placeholder="<?php echo mobileid::getDefaultMsg($app->language); ?>" required></textarea>
+					<?php echo mobileid::getServiceProvider($app->language); ?>&nbsp;
+					<input type="text" id="mid_msg" class="input-xxlarge" placeholder="<?php echo mobileid::getDefaultMsg($app->language); ?>"<?php if (!mobileid::getMsgAllowEdit()) { ?> disabled<?php } ?> />
 				</div>
 			</div>
-			<?php } ?>
 			<div class="form-actions">
 				<input type="button" value="<?php echo $app->getText('APP_SUBMIT_BTN_REMOVE'); ?>" class="btn" id="submit_btn_remove" />
 				<input type="button" value="<?php echo $app->getText('APP_SUBMIT_BTN_SEND'); ?>" class="btn" id="submit_btn_send" />
@@ -70,7 +69,7 @@ $app = new mobileid_app();
 		</form>
 		<div id="msg_wait" class="alert alert-block"><img src="assets/img/ajax-loader.gif" alt="<?php echo $app->getText('APP_SUBMIT_WAIT_ALT'); ?>" title="<?php echo $app->getText('APP_SUBMIT_WAIT_ALT'); ?>" /> <?php echo $app->getText('APP_SUBMIT_WAIT_MSG'); ?></div>
 		<div id="msg_error" class="error"><?php echo $app->getText('APP_ERROR_1'); ?></div>
-		<div id="msg_result" class=""><?php echo $app->getText('APP_SUBMIT_SUCCESS'); ?></div>
+		<div id="msg_result"></div>
 	</div>
 	<script type="text/javascript" src="assets/js/jquery/jquery-1.8.3.min.js"></script>
 	<!--[if IE]>

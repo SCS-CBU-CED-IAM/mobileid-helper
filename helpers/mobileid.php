@@ -52,7 +52,10 @@ class mobileid {
 	public $mid_msg_it;					// Italian
 
 	/* Allow message edition */	
-	public $mid_msg_allowedit = false;
+	protected $mid_msg_allowedit = false;
+
+	/* Message provider */
+	protected $mid_msg_service;
 
 	/* Soap request */
 	protected $soap_request;			// Soap request
@@ -192,6 +195,10 @@ class mobileid {
 		if ($this->mobileIdConfig->mid_msg_allowedit) {
 			$this->mid_msg_allowedit = $this->mobileIdConfig->mid_msg_allowedit;
 		}
+
+		if (strlen($this->mobileIdConfig->mid_msg_service)) {
+			$this->mid_msg_service = $this->mobileIdConfig->mid_msg_service;
+		}
 		
 		return true;
 	}
@@ -242,6 +249,11 @@ class mobileid {
 			$this->setError('No WS Action configured!');
 			return;
 		}
+
+		if (!strlen($this->mobileIdConfig->mid_msg_service)) {
+			$this->setError('No Service Provider configured!');
+			return;
+		}
 		
 		return true;
 	}
@@ -281,6 +293,24 @@ class mobileid {
 		$mobileIdConfig = new mobileIdConfig();
 		
 		return $mobileIdConfig->$lang_var;
+	}
+
+	/**
+	* Mobileid Get the service provider
+	*
+	* @return 	string message on success, false on failure
+	*/
+	
+	public function getServiceProvider() {
+
+		/* New instance of the mobileID configuration class */
+		$mobileIdConfig = new mobileIdConfig();
+		
+		if (!strlen($mobileIdConfig->mid_msg_service)) {
+			$mobileIdConfig->mid_msg_service = 'No service provider defined!';
+		}
+
+		return $mobileIdConfig->mid_msg_service;
 	}
 	
 	/**
@@ -586,7 +616,7 @@ class mobileid {
 				<mss:MobileUser>
 				  <mss:MSISDN>'.$this->MobileUser.'</mss:MSISDN>
 				</mss:MobileUser>
-				<mss:DataToBeSigned MimeType="text/plain" Encoding="UTF-8">'.$this->DataToBeSigned.'</mss:DataToBeSigned>
+				<mss:DataToBeSigned MimeType="text/plain" Encoding="UTF-8">'.$this->mid_msg_service.': '.$this->DataToBeSigned.'</mss:DataToBeSigned>
 				<mss:SignatureProfile>
 				  <mss:mssURI>http://mid.swisscom.ch/MID/v1/AuthProfile1</mss:mssURI>
 				</mss:SignatureProfile>

@@ -86,6 +86,7 @@ function setRemoveFormValues() {
 	// Set form field empty
 	jQuery('#mid_phone').val('');
 	jQuery('#mid_msg').val('');
+	jQuery('#msg_result').html('');
 
 	// Remove class for message result
 	jQuery("#msg_result").removeClass("success");
@@ -111,6 +112,11 @@ function prepareSubmit() {
 	jQuery('#msg_wait').show();
 	jQuery('#msg_error').hide();
 	jQuery('#msg_result').hide();	
+
+	// Remove class for message result
+	jQuery("#msg_result").removeClass("success");
+	jQuery("#msg_result").removeClass("error");
+	jQuery("#msg_result").removeClass("warning");
 
 	// Disable submit and clear button
 	jQuery('#submit_btn_remove').attr("disabled", "true");
