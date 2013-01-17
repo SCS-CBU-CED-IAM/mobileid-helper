@@ -12,15 +12,28 @@ require_once(__ROOT__.'/helpers/app.php');
 require_once(__ROOT__.'/helpers/mobileid.php');
 
 /* Get the Ajax request, Json encoded */
-$json_request = $_GET["request"];
+$form_request = $_GET["request"];
 
 /* No request */
-if (!$json_request) {
+if (!$form_request) {
+	return;
+}
+
+/* Change default message request (AJAX) */
+if ($form_request == 'default_msg') {
+	$lang = $_GET["lang"];
+	
+	if (!strlen($lang)) {
+		return;
+	}
+
+	echo mobileid::getDefaultMsg($lang);
+	
 	return;
 }
 
 /* Json decoding of the request */
-$request = json_decode($json_request);
+$request = json_decode($form_request);
 
 if ($request->mid_phone[0] == ' ') {
 	$request->mid_phone[0] = '+';
@@ -30,7 +43,7 @@ if ($request->mid_phone[0] == ' ') {
 $app = new mobileid_app();
 
 /* New instance of the mobileID class */
-$mobileIdRequest = new mobileid($request->mid_phone, $request->mid_lang);
+$mobileIdRequest = new mobileid($request->mid_phone, $request->mid_lang, $request->mid_msg);
 
 /* Send the request */
 $mobileIdRequest->sendRequest();

@@ -39,6 +39,18 @@ jQuery(document).ready(function() {
 			return false;
 		}
 	});
+	
+	jQuery('#mid_lang_zone').click(function() {
+		var placeholder = jQuery("#mid_msg").attr("placeholder");
+		
+		if (!placeholder.length) {
+			return;
+		}
+
+		jQuery('#mid_msg').val('');
+
+		getDefaultMessage();
+	});
 });
 
 function validatePhone() {
@@ -73,7 +85,8 @@ function setRemoveFormValues() {
 	
 	// Set form field empty
 	jQuery('#mid_phone').val('');
-	
+	jQuery('#mid_msg').val('');
+
 	// Remove class for message result
 	jQuery("#msg_result").removeClass("success");
 	jQuery("#msg_result").removeClass("error");
@@ -87,6 +100,9 @@ function setRemoveFormValues() {
 	// Check the default language
 	jQuery('input[name="mid_lang"]').prop('checked', false);
 	jQuery("#mid_lang_"+jQuery('#mid_lang_default').val()).trigger("click");
+
+	// Set default message
+	getDefaultMessage();
 }
 
 function prepareSubmit() {
@@ -110,16 +126,27 @@ function endSubmit() {
 function submitFormValues() {
 		
 	// Prepare the ajax/json request
-	var mid_lang = jQuery('input:radio[name=mid_lang]:checked').val();
-	var phone    = jQuery('#mid_phone').val();
-	var lang     = jQuery('#mid_lang_default').val();
-	
-	var jsonRequest = '{"mid_phone":"'+phone+'","mid_lang":"'+mid_lang+'"}';
+	var mid_phone = jQuery('#mid_phone').val();
+	var mid_lang  = jQuery('input:radio[name=mid_lang]:checked').val();
+	var mid_msg   = jQuery('#mid_msg').val();
+	var lang      = jQuery('#mid_lang_default').val();
+
+	var jsonRequest;
 	var ajax_url;
+
+	jsonRequest = '{';
+	jsonRequest = jsonRequest+'"mid_phone":"'+mid_phone+'"';
+	jsonRequest = jsonRequest+',"mid_lang":"'+mid_lang+'"';
+	
+	if (mid_msg.length > 0) {
+		jsonRequest = jsonRequest+',"mid_msg":"'+mid_msg+'"';
+	}
+	
+	jsonRequest = jsonRequest+'}';
 	
 	ajax_url = 'form.php?request='+jsonRequest;
 	ajax_url = ajax_url+'&lang='+lang;
-	
+
 	jQuery.ajax({
 		url: ajax_url,
 		success: function(data) {
@@ -147,5 +174,21 @@ function submitFormValues() {
 			
 			endSubmit();
 		}
-	});	
+	});
+}
+
+function getDefaultMessage() {
+	
+	var checked_lang = jQuery('input:radio[name=mid_lang]:checked').val();
+	var ajax_url;
+	
+	ajax_url = 'form.php?request=default_msg';
+	ajax_url = ajax_url+'&lang='+checked_lang;
+
+	jQuery.ajax({
+		url: ajax_url,
+		success: function(data) {
+			jQuery("#mid_msg").attr("placeholder", data).placeholder();
+		}
+	});
 }

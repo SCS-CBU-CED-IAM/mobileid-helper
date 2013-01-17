@@ -51,6 +51,9 @@ class mobileid {
 	public $mid_msg_fr;					// French
 	public $mid_msg_it;					// Italian
 
+	/* Allow message edition */	
+	public $mid_msg_allowedit = false;
+
 	/* Soap request */
 	protected $soap_request;			// Soap request
 	
@@ -185,6 +188,10 @@ class mobileid {
 		if (strlen($this->mobileIdConfig->mid_msg_it)) {
 			$this->mid_msg_it = $this->mobileIdConfig->mid_msg_it;
 		}
+
+		if ($this->mobileIdConfig->mid_msg_allowedit) {
+			$this->mid_msg_allowedit = $this->mobileIdConfig->mid_msg_allowedit;
+		}
 		
 		return true;
 	}
@@ -237,6 +244,43 @@ class mobileid {
 		}
 		
 		return true;
+	}
+
+	/**
+	* Mobileid check if the client could edit his message or not
+	*
+	* @return 	boolean	true on success, false on failure
+	*/
+	
+	public function getMsgAllowEdit() {
+		
+		/* New instance of the mobileID configuration class */
+		$mobileIdConfig = new mobileIdConfig();
+		
+		return $mobileIdConfig->mid_msg_allowedit;
+		
+	}
+
+	/**
+	* Mobileid Get the value of the default message
+	*
+	* @params	string lang
+	* @return 	string message on success, false on failure
+	*/
+	
+	public function getDefaultMsg($lang = 'en') {
+		
+		if (strlen($lang) != 2) {
+			return;
+		}
+
+		/* set the language variable */
+		$lang_var = 'mid_msg_'.$lang;
+
+		/* New instance of the mobileID configuration class */
+		$mobileIdConfig = new mobileIdConfig();
+		
+		return $mobileIdConfig->$lang_var;
 	}
 	
 	/**
