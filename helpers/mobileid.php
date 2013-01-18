@@ -272,46 +272,6 @@ class mobileid {
 		return $mobileIdConfig->mid_msg_allowedit;
 		
 	}
-
-	/**
-	* Mobileid Get the value of the default message
-	*
-	* @params	string lang
-	* @return 	string message on success, false on failure
-	*/
-	
-	public function getDefaultMsg($lang = 'en') {
-		
-		if (strlen($lang) != 2) {
-			return;
-		}
-
-		/* set the language variable */
-		$lang_var = 'mid_msg_'.$lang;
-
-		/* New instance of the mobileID configuration class */
-		$mobileIdConfig = new mobileIdConfig();
-		
-		return $mobileIdConfig->$lang_var;
-	}
-
-	/**
-	* Mobileid Get the service provider
-	*
-	* @return 	string message on success, false on failure
-	*/
-	
-	public function getServiceProvider() {
-
-		/* New instance of the mobileID configuration class */
-		$mobileIdConfig = new mobileIdConfig();
-		
-		if (!strlen($mobileIdConfig->mid_msg_service)) {
-			$mobileIdConfig->mid_msg_service = 'No service provider defined!';
-		}
-
-		return $mobileIdConfig->mid_msg_service;
-	}
 	
 	/**
 	* Mobileid set the parameters
@@ -332,7 +292,8 @@ class mobileid {
 		$this->UserLang   = $UserLang;
 		$this->MobileUser = $MobileUser;
 
-		if (!strlen($DataToBeSigned)) {
+		/* Force the default message when edition is not allowed */
+		if (!strlen($DataToBeSigned) || !$this->mid_msg_allowedit) {
 			if (!$this->setDataToBeSigned()) {
 				return;				
 			}
@@ -416,6 +377,46 @@ class mobileid {
 		}
 		
 		return true;
+	}
+
+	/**
+	* Mobileid Get the value of the default message
+	*
+	* @params	string lang
+	* @return 	string message on success, false on failure
+	*/
+	
+	public function getDefaultMsg($lang = 'en') {
+		
+		if (strlen($lang) != 2) {
+			return;
+		}
+
+		/* set the language variable */
+		$lang_var = 'mid_msg_'.$lang;
+
+		/* New instance of the mobileID configuration class */
+		$mobileIdConfig = new mobileIdConfig();
+		
+		return $mobileIdConfig->$lang_var;
+	}
+
+	/**
+	* Mobileid Get the service provider
+	*
+	* @return 	string message on success, false on failure
+	*/
+	
+	public function getServiceProvider() {
+
+		/* New instance of the mobileID configuration class */
+		$mobileIdConfig = new mobileIdConfig();
+		
+		if (!strlen($mobileIdConfig->mid_msg_service)) {
+			$mobileIdConfig->mid_msg_service = 'No service provider defined!';
+		}
+
+		return $mobileIdConfig->mid_msg_service;
 	}
 
 	/**
