@@ -29,16 +29,17 @@ class mobileIdConfig {
 	//public $TimeOutWSRequest  = 90;                       // Optional, to set the timeout of the web service call
 	//public $TimeOutMIDRequest = 80;                       // Optional, to set the timeout of the mobile id call
 
-	/* Request messages, be sure to have your service prefixed  */
-    public $mid_msg_de = "serviceprovider.com: Erlauben Sie das testen Ihrer Mobile ID?";
-    public $mid_msg_en = "serviceprovider.com: Allow testing of your Mobile ID?";
-    public $mid_msg_fr = "serviceprovider.com: Authoriser le test de la Mobile ID?";
-    public $mid_msg_it = "serviceprovider.com: Permetta le prove della vostra Mobile ID?";
+	/* Message provider */
+	public $mid_msg_service = "serviceprovider.com";        // Defines the prefix for the request messages
+
+	/* Request messages. Those will be prefixed with the Message provider */
+    public $mid_msg_de = "Erlauben Sie das testen Ihrer Mobile ID?";
+    public $mid_msg_en = "Allow testing of your Mobile ID?";
+    public $mid_msg_fr = "Authoriser le test de la Mobile ID?";
+    public $mid_msg_it = "Permetta le prove della vostra Mobile ID?";
 	
 	/* Allow message edition */	
 	public $mid_msg_allowedit = false;
 
-	/* Message provider */
-	public $mid_msg_service = "serviceprovider.com";
 }
 ?>
