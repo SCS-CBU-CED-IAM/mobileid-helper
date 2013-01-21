@@ -398,10 +398,7 @@ class mobileid {
 		/* New instance of the mobileID configuration class */
 		$mobileIdConfig = new mobileIdConfig();
 		
-		$default_msg     = $mobileIdConfig->$lang_var;
-		$mid_msg_service = mobileid::getServiceProvider();
-		
-		return (string)$mid_msg_service.': '.$default_msg;
+		return $mobileIdConfig->$lang_var;
 	}
 
 	/**
@@ -410,7 +407,7 @@ class mobileid {
 	* @return 	string message on success, false on failure
 	*/
 	
-	private function getServiceProvider() {
+	public function getServiceProvider() {
 
 		/* New instance of the mobileID configuration class */
 		$mobileIdConfig = new mobileIdConfig();

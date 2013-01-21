@@ -56,7 +56,8 @@ $app = new mobileid_app();
 			<div class="control-group">
 				<label class="control-label" for="mid_msg"><strong><?php echo $app->getText('APP_MESSAGE'); ?></strong></label>
 				<div class="controls controls-row">
-					<textarea rows="3" id="mid_msg" class="input-xlarge" placeholder="<?php echo mobileid::getDefaultMsg($app->language); ?>"<?php if (!mobileid::getMsgAllowEdit()) { ?> disabled<?php } ?>></textarea>
+					<?php echo mobileid::getServiceProvider(); ?>:&nbsp;
+					<input type="text" id="mid_msg" class="input-xlarge" placeholder="<?php echo mobileid::getDefaultMsg($app->language); ?>"<?php if (!mobileid::getMsgAllowEdit()) { ?> disabled<?php } ?>>
 				</div>
 			</div>
 			<div class="form-actions">
@@ -73,11 +74,6 @@ $app = new mobileid_app();
 	<script type="text/javascript" src="assets/js/jquery/jquery-1.8.3.min.js"></script>
 	<!--[if IE]>
 	<script type="text/javascript" src="assets/js/jquery/html5placeholder.jquery.js"></script>
-	<script>
-		jQuery(function() {
-			jQuery(':input[placeholder]').placeholder();
-		});
-	</script>
 	<![endif]-->
 	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="assets/js/mobileid.js"></script>
