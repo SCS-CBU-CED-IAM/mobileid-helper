@@ -55,9 +55,8 @@ $app = new mobileid_app();
 			</div>			
 			<div class="control-group">
 				<label class="control-label" for="mid_msg"><strong><?php echo $app->getText('APP_MESSAGE'); ?></strong></label>
-				<div class="controls">
-					<?php echo mobileid::getServiceProvider($app->language); ?>:&nbsp;
-					<input type="text" id="mid_msg" class="input-xlarge" placeholder="<?php echo mobileid::getDefaultMsg($app->language); ?>"<?php if (!mobileid::getMsgAllowEdit()) { ?> disabled<?php } ?> />
+				<div class="controls controls-row">
+					<textarea rows="3" id="mid_msg" class="input-xlarge" placeholder="<?php echo mobileid::getDefaultMsg($app->language); ?>"<?php if (!mobileid::getMsgAllowEdit()) { ?> disabled<?php } ?>></textarea>
 				</div>
 			</div>
 			<div class="form-actions">

@@ -82,13 +82,9 @@
       'color':'#999999', 
       'position': 'absolute', 
       'left':'4px',
-      'top':'2px',
+      'top':'-15px',
 	  'margin':'0px',
-      /*'overflow-x': 'hidden',*/
 	  'text-align':'left'
-	 /* , 'height': '1em', 'line-height': '1em'*/
-	  /*,
-	  'padding': '8px 3%'*/
     }
   };
 })(jQuery);
