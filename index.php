@@ -44,7 +44,7 @@ $app = new mobileid_app();
 						<?php echo $app->getText('APP_LANG_2'); ?>
 					</label>
 					<label class="radio">
-						<input type="radio" name="mid_lang" id="mid_lang_it" value="it" <?php if ($app->language == 'if') { ?>checked<?php } ?> />
+						<input type="radio" name="mid_lang" id="mid_lang_it" value="it" <?php if ($app->language == 'it') { ?>checked<?php } ?> />
 						<?php echo $app->getText('APP_LANG_3'); ?>
 					</label>
 					<label class="radio">
