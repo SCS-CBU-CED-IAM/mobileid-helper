@@ -68,7 +68,7 @@ $app = new mobileid_app();
 			</fieldset>
 		</form>
 		<div id="msg_wait" class="alert alert-block"><img src="assets/img/ajax-loader.gif" alt="<?php echo $app->getText('APP_SUBMIT_WAIT_ALT'); ?>" title="<?php echo $app->getText('APP_SUBMIT_WAIT_ALT'); ?>" /> <?php echo $app->getText('APP_SUBMIT_WAIT_MSG'); ?></div>
-		<div id="msg_error" class="error"><?php echo $app->getText('APP_ERROR_1'); ?></div>
+		<div id="msg_error" class="error"><?php echo $app->getText('APP_ERROR_MOBILE_INVALID'); ?></div>
 		<div id="msg_result"></div>
 	</div>
 	<script type="text/javascript" src="assets/js/jquery/jquery-1.8.3.min.js"></script>
