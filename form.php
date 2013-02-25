@@ -87,7 +87,7 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
 		return;	
 	}	
 	
-	$msg  = "<p>".$app->getText('APP_ERROR_DEFAULT')."</p>";	
+	$msg  = "<p>".$app->getText('APP_ERROR_TITLE')."</p>";	
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$mobileIdRequest->response_mss_status_code."/etsi:_".$mobileIdRequest->response_soap_fault_subcode." -> ".$mobileIdRequest->response_status_message."</p>";
 

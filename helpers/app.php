@@ -66,7 +66,13 @@ class mobileid_app {
 	public function getText($define) {
 		
 		if (!strstr($this->defines[$define], '<a href')) {
-			return htmlentities($this->defines[$define], null, 'utf-8');
+			$text = htmlentities($this->defines[$define], null, 'utf-8');
+			
+			if (!strlen($text)) {
+				return htmlentities($this->defines["APP_ERROR_DEFAULT"], null, 'utf-8');
+			}
+
+			return $text;
 		}
 		
 		return $this->defines[$define];
