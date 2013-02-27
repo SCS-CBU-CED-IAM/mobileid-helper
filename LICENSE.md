@@ -1,4 +1,4 @@
-swisscom-mobileid-helper
+mobileid-helper
 Copyright (C) 2012 - Swisscom (Schweiz AG)
 
 This program is free software: you can redistribute it and/or modify
