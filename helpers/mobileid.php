@@ -1107,7 +1107,7 @@ class mobileid {
 			$this->response_error_type = 'warning';
 		}
 
-		$warning_code = array("105", "208", "401", "402", "403", "404", "406", "422");
+		$warning_code = array("105", "208", "209", "401", "402", "403", "404", "406", "422");
 
 		if (in_array($this->response_soap_fault_subcode, $warning_code)) {
 			$this->response_error_type = 'warning';
