@@ -70,7 +70,6 @@ class mobileid_app {
 			
 			if (!strlen($text)) {
                 $text = htmlentities($this->defines["APP_ERROR_DEFAULT"], null, 'utf-8');
-                $text = $text . ' (' . $this->defines[$define] . ')';
 			}
 
 			return $text;
