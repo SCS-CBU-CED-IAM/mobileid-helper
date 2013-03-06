@@ -39,6 +39,10 @@ if ($request->mid_phone[0] == ' ') {
 	$request->mid_phone[0] = '+';
 }
 
+if (!isset($request->mid_msg)) {
+	$request->mid_msg = '';
+}
+
 /* New instance of the app class */
 $app = new mobileid_app();
 

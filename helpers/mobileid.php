@@ -166,7 +166,10 @@ class mobileid {
 		$this->ocsp_cert   = $this->mobileIdConfig->ocsp_cert;
 		$this->ws_url      = $this->mobileIdConfig->ws_url;
 		$this->ws_action   = $this->mobileIdConfig->ws_action;
-		$this->support_url = $this->mobileIdConfig->support_url;
+		
+		if (strlen($this->mobileIdConfig->support_url)) {
+			$this->support_url = $this->mobileIdConfig->support_url;
+		}
 
 		if ($this->mobileIdConfig->TimeOutWSRequest) {
 			$this->TimeOutWSRequest = (int)$this->mobileIdConfig->TimeOutWSRequest;

@@ -22,7 +22,9 @@ class mobileid_app {
 
 	public function __construct() {
 		
-		$this->language = $_GET['lang'];
+		if (isset($_GET['lang'])) {
+			$this->language = $_GET['lang'];
+		}
 		
 		if (!strlen($this->language)) {
 			$this->language      = strtolower(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
@@ -70,6 +72,7 @@ class mobileid_app {
 			
 			if (!strlen($text)) {
                 $text = htmlentities($this->defines["APP_ERROR_DEFAULT"], null, 'utf-8');
+                $text = $text . ' (' . $this->defines[$define] . ')';
 			}
 
 			return $text;
