@@ -70,7 +70,7 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
 	if (strlen($mobileIdRequest->response_mss_status_code)) {
 		$msg_prob    = $app->getText('APP_ERROR_'.$mobileIdRequest->response_mss_status_code);
         if (!strlen($msg_prob)) {
-            $msg_prob = htmlentities($this->defines["APP_ERROR_DEFAULT"], null, 'utf-8');
+            $msg_prob = $app->getText('APP_ERROR_DEFAULT');
         }
 		$support_txt = $app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_mss_status_code);
 	}
@@ -78,7 +78,7 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
 	if (strlen($mobileIdRequest->response_soap_fault_subcode)) {
 		$msg_prob    = $app->getText('APP_ERROR_'.$mobileIdRequest->response_soap_fault_subcode);			
         if (!strlen($msg_prob)) {
-            $msg_prob = htmlentities($this->defines["APP_ERROR_DEFAULT"], null, 'utf-8');
+            $msg_prob = $app->getText('APP_ERROR_DEFAULT');
         }
 		$support_txt = $app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_soap_fault_subcode);
 	}
