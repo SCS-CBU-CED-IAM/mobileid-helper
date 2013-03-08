@@ -66,7 +66,7 @@ function validatePhone() {
 		return false;
 	}
 
-    if (value.substring(0,1)+value.substring(1,2) == '00' && value.length < 12) {
+    if (value.substring(0,1)+value.substring(1,2) == '00' && value.length < 13) {
 		return false;
 	}
 
