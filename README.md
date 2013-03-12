@@ -1,7 +1,7 @@
 mobileid-helper
 ===============
 
-A helper application to check the status about a Swisscom MobileID user.
+A helper application to check the status about a Mobile ID user.
 
 ## Requirements
 * PHP 5.3.x
