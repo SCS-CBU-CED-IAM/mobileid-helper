@@ -58,7 +58,8 @@ class mobileid {
 	protected $mid_msg_service;
 
 	/* Soap request */
-	protected $soap_request;			// Soap request
+	protected $soap_request;				// Soap request
+	protected $soap_request_retry = 0;		// Soap request
 	
 	/* Response */
 	protected $soap_response_xml;			// XML response buffer
@@ -665,7 +666,16 @@ class mobileid {
 		/* Soap request response is an error */
 		if (!$this->isResponseRequestSuccess()) {
 			$this->setResponseError();
-			return;			
+			
+			/* If sub error code value is "20901", then we should do
+			at least one transparent retry by sending the request again */
+			if ($this->response_soap_fault_subcode != '20901' || $this->soap_request_retry) {
+				return;
+			}
+
+			$this->soap_request_retry += 1;
+			$this->response_error = false;
+			$this->sendRequest();
 		}
 		
 		/* Set the response Datas */
