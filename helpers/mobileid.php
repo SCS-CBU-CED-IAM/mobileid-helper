@@ -647,6 +647,26 @@ class mobileid {
 	}
 
 	/**
+	* Mobileid reinitialize the MobileID request (Case sub_code = 20901)
+	*
+	* @return 	boolean	true on success, false on failure
+	*/
+	private function reInitRequest() {
+
+		// Reinitialize the soap request
+		$this->soap_request = '';
+
+		// Reinitialize the error variables
+		$this->response_error = false;
+		$this->response_error_type = false;
+		$this->response_mss_status_code = '';
+		$this->response_soap_fault_subcode = '';
+		$this->response_status_message = '';
+		
+		return true;		
+	}
+
+	/**
 	* Mobileid check the response request
 	*
 	* @return 	boolean	true on success, false on failure
@@ -675,13 +695,12 @@ class mobileid {
 
 			// Increment the number of tentativ
 			$this->soap_request_retry += 1;
+			
+			// Reinitialize the MobileID request
+			$this->reInitRequest();
 
-			// Reinitialize the error variables
-			$this->response_error = false;
-			$this->response_error_type = false;
-			$this->response_mss_status_code = '';
-			$this->response_soap_fault_subcode = '';
-			$this->response_status_message = '';
+			// Set the AP Transaction
+			$this->setApTransaction();
 
 			// Resend the request
 			$this->sendRequest();
