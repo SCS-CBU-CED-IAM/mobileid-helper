@@ -34,6 +34,8 @@ Here the list of `warning` errors defined in `helpers/mobileid.php`:
 $warning_code = array("105", "208", "209", "401", "402", "403", "404", "406", "422");
 ````
 
+The error code 20901 (Applet Language resync) is handled with an automatic and transparent retry.
+
 Refer to the "Mobile ID - SOAP client reference guide" document from Swisscom for more details about error states.
 
 ### Message to be signed
