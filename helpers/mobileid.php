@@ -673,8 +673,17 @@ class mobileid {
 				return;
 			}
 
+			// Increment the number of tentativ
 			$this->soap_request_retry += 1;
+
+			// Reinitialize the error variables
 			$this->response_error = false;
+			$this->response_error_type = false;
+			$this->response_mss_status_code = '';
+			$this->response_soap_fault_subcode = '';
+			$this->response_status_message = '';
+
+			// Resend the request
 			$this->sendRequest();
 		}
 		
