@@ -1,5 +1,17 @@
 /* Css example */
-body{width:100%;}
+/* PostFinance */
+
+html {
+	height: 100%;
+}
+
+body {
+	background: #FFCC00;
+	color: #000;
+	height: 100%;
+	width:100%;
+}
+/* standard */
 div#container{margin:30px 30px auto;}
 #msg_wait,#msg_result,#msg_error,#msg_form{display:none;}
 h1{margin:0 0 30px;}
