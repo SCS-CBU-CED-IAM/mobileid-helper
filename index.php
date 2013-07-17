@@ -20,7 +20,6 @@ $app = new mobileid_app();
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="assets/css/bootstrap-responsive.min.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="assets/css/custom.css" type="text/css" media="screen" />
-	<!link rel="stylesheet" href="https://www.postfinance.ch/includes/generic.css" type="text/css" media="screen" />
 </head>
 <body>
 	<div id="container">
