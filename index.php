@@ -33,23 +33,18 @@ $app = new mobileid_app();
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="mid_lang"><strong><?php echo $app->getText('APP_LANG'); ?></strong></label>
 				<div class="controls" id="mid_lang_zone">
-					<label class="radio">
+					<label class="hidden">
 						<input type="radio" name="mid_lang" id="mid_lang_de" value="de" <?php if ($app->language == 'de') { ?>checked<?php } ?> />
-						<?php echo $app->getText('APP_LANG_1'); ?>
 					</label>
-					<label class="radio">
+					<label class="hidden">
 						<input type="radio" name="mid_lang" id="mid_lang_fr" value="fr" <?php if ($app->language == 'fr') { ?>checked<?php } ?> />
-						<?php echo $app->getText('APP_LANG_2'); ?>
 					</label>
-					<label class="radio">
+					<label class="hidden">
 						<input type="radio" name="mid_lang" id="mid_lang_it" value="it" <?php if ($app->language == 'it') { ?>checked<?php } ?> />
-						<?php echo $app->getText('APP_LANG_3'); ?>
 					</label>
-					<label class="radio">
+					<label class="hidden">
 						<input type="radio" name="mid_lang" id="mid_lang_en" value="en" <?php if ($app->language == 'en') { ?>checked<?php } ?> />
-						<?php echo $app->getText('APP_LANG_4'); ?>
 					</label>
 				</div>
 			</div>			

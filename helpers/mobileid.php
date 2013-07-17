@@ -99,6 +99,7 @@ class mobileid {
 
 	public function __construct($MobileUser, $UserLang = 'en', $DataToBeSigned = '') {
 
+		$MobileUser = str_replace(' ', '', $MobileUser);
 		/* Check the server requirements */
 		if (!$this->checkRequirements()) {
 			return;
@@ -522,7 +523,7 @@ class mobileid {
 
 		/* URI */
 		curl_setopt($ch, CURLOPT_URL, $this->ws_url);
-		
+
 		/* Avoid cache */
 		curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);						// No cache
 		
