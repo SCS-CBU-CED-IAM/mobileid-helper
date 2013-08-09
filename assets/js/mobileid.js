@@ -58,6 +58,7 @@ function validatePhone() {
     var value  = jQuery('#mid_phone').val();
     var filter = /^[0-9+]+$/;
     
+    value  = value.replace(/ */g,'');
     if (!filter.test(value)) {
         return false;
     }

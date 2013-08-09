@@ -110,6 +110,7 @@ class mobileid {
 		}
 		
 		/* Set the application parameters */
+                $MobileUser = str_replace(' ', '', $MobileUser);
 		if (!$this->setParameters($MobileUser, $UserLang, $DataToBeSigned)) {
 			return;
 		}
