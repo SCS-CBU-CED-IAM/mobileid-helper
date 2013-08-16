@@ -60,6 +60,7 @@ function validatePhone() {
 
     value  = value.replace(/ */g,'');
     
+    value  = value.replace(/ */g,'');
     if (!filter.test(value)) {
         return false;
     }
