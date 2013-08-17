@@ -33,6 +33,9 @@ class mobileid {
 	protected $ocsp_cert;				// OCSP information of the signers certificate
 	protected $ocsp_url;				// OCSP Url
 	
+	/* Proxy configuration */
+	protected $curl_proxy;				// HTTP (CONNECT) proxy
+	
 	/* Soap configuration */
 	protected $ws_url;					// WS Url
 	protected $ws_action;				// WS action
@@ -166,6 +169,7 @@ class mobileid {
 		$this->ap_id       = $this->mobileIdConfig->ap_id;
 		$this->ap_pwd      = $this->mobileIdConfig->ap_pwd;
 		$this->ocsp_cert   = $this->mobileIdConfig->ocsp_cert;
+		$this->curl_proxy  = $this->mobileIdConfig->curl_proxy;
 		$this->ws_url      = $this->mobileIdConfig->ws_url;
 		$this->ws_action   = $this->mobileIdConfig->ws_action;
 		
@@ -543,6 +547,9 @@ class mobileid {
 		curl_setopt($ch, CURLOPT_TIMEOUT, $this->TimeOutMIDRequest);	// Times out
 		curl_setopt($ch, CURLOPT_POST, 1); 								// Set POST method
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 					// Return into a variable. This is IMPORTANT!
+
+		/* HTTP proxy */
+		curl_setopt($ch, CURLOPT_PROXY, $this->curl_proxy);				// Set proxy
 
 		/* add POST body */
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $this->soap_request); 		// Add POST fields (Soap envelop)
