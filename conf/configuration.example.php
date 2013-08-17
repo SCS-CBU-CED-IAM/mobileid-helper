@@ -21,6 +21,9 @@ class mobileIdConfig {
 	/* OCSP configuration */
 	public $ocsp_cert = "/www/conf/swisscom-ocsp.crt";      // OCSP information of the signers certificate
 	
+	/* Proxy configuration */
+	public $curl_proxy = "";                                // e.g. "my-proxy.com:8080", leave empty for no proxy
+	
 	/* Soap configuration */
 	public $ws_url    = "https://soap.mobileid.swisscom.com/soap/services/MSS_SignaturePort";
 	public $ws_action = "#MSS_Signature";
