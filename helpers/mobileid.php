@@ -113,7 +113,6 @@ class mobileid {
 		}
 		
 		/* Set the application parameters */
-                $MobileUser = str_replace(' ', '', $MobileUser);
 		if (!$this->setParameters($MobileUser, $UserLang, $DataToBeSigned)) {
 			return;
 		}
@@ -310,10 +309,6 @@ class mobileid {
 			return;
 		}
 
-		if (!$this->setMobileUser()) {
-			return;
-		}
-
 		return true;
 	}
 
@@ -427,54 +422,13 @@ class mobileid {
 	/**
 	* Mobileid check the mobile phone according to Swisscom rules
 	*
-	* @return 	boolean	true on success, false on failure
+	* @return 	boolean	true
 	*/
 	private function checkMobileUser() {
-		
-		if (strlen($this->MobileUser) < 10) {
-			$this->setError('Not a valid mobile user!');
-			return;
-		}
 
-		if ($this->MobileUser[0] != '0' && $this->MobileUser[0] != '+') {
-			$this->setError('Not a valid mobile user!');
-			return;
-		}
+		/* format the mobile user to ensure international format with specified prefix (+ or 00) and no spaces */
+		$this->MobileUser = $this->getMSISDNfrom($this->MobileUser);
 
-		if ($this->MobileUser[0].$this->MobileUser[1] == '00' && strlen($this->MobileUser) < 12) {
-			$this->setError('Not a valid mobile user!');
-			return;
-		}
-
-		if ($this->MobileUser[0] == '+' && strlen($this->MobileUser) < 12) {
-			$this->setError('Not a valid mobile user!');
-			return;
-		}
-
-		if ($this->MobileUser[0] == '0' && $this->MobileUser[1] != '0' && strlen($this->MobileUser) < 10) {
-			$this->setError('Not a valid mobile user!');
-			return;
-		}
-
-		return true;
-	}
-
-	/**
-	* Mobileid check the mobile phone according to Swisscom rules
-	*
-	* @return 	boolean	true on success, false on failure
-	*/
-	private function setMobileUser() {
-		
-		if ($this->MobileUser[0].$this->MobileUser[1] == '00') {
-			$this->MobileUser = str_replace('00', '+', $this->MobileUser);
-		}
-		
-		if ($this->MobileUser[0] == '0' && $this->MobileUser[1] != '0') {
-			$this->MobileUser[0] = '';
-			$this->MobileUser = '+41'.trim($this->MobileUser);
-		}
-		
 		return true;
 	}
 
@@ -1230,5 +1184,30 @@ class mobileid {
 
 		return preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $this->soap_response_xml);
 	}
+	
+	/**
+    * Ensures international format with specified prefix (+ or 00) and no spaces
+	*
+	* @return	string	uid
+    */
+    private function getMSISDNfrom($uid, $prefix = '00') {
+
+        $uid = preg_replace('/\s+/', '', $uid);     	// Remove all whitespaces
+        $uid = str_replace('+', '00', $uid);            // Replace all + with 00
+        $uid = preg_replace('/\D/', '', $uid);          // Remove all non-digits
+        
+        if (strlen($uid) > 5) {                         // Still something here
+
+			if ($uid[0] == '0' && $uid[1] != '0') {     // Add implicit 41 if starting with one 0
+                $uid = '41' . substr($uid, 1);
+            }
+
+            $uid = ltrim($uid, '0');                    // Remove all leading 0
+        }
+
+        $uid = $prefix . $uid;                          // Add the defined prefix
+
+        return $uid;
+    }	
 }
 ?>

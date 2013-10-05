@@ -14,28 +14,15 @@ jQuery(document).ready(function() {
 	});	
 
 	// Submit the form
-	jQuery('#submit_btn_send').click(function() {
-		if (!validatePhone()) {
-			jQuery('#msg_result').hide();
-			jQuery('#msg_error').show();
-			return;
-		}
-		
+	jQuery('#submit_btn_send').click(function() {		
 		prepareSubmit();
 		submitFormValues();
 	});
 	
 	jQuery("#container").bind("keypress", function(e) {
 		if (e.keyCode == 13) {
-			if (!validatePhone()) {
-				jQuery('#msg_result').hide();
-				jQuery('#msg_error').show();
-				return false;
-			}
-
 			prepareSubmit();
-			submitFormValues();			
-			
+			submitFormValues();
 			return false;
 		}
 	});
@@ -52,37 +39,6 @@ jQuery(document).ready(function() {
 		getDefaultMessage();
 	});
 });
-
-function validatePhone() {
-
-    var value  = jQuery('#mid_phone').val();
-    var filter = /^[0-9+]+$/;
-
-    value  = value.replace(/ */g,'');
-    
-    value  = value.replace(/ */g,'');
-    if (!filter.test(value)) {
-        return false;
-    }
-    
-    if (value.substring(0,1) != '0' && value.substring(0,1) != '+') {
-		return false;
-	}
-
-    if (value.substring(0,1)+value.substring(1,2) == '00' && value.length < 13) {
-		return false;
-	}
-
-    if (value.substring(0,1) == '+' && value.length < 12) {
-		return false;		
-	}
-
-    if (value.substring(0,1) == '0' && value.substring(1,2) != '0' && value.length < 10) {
-		return false;		
-	}
-
-    return true;
-}
 
 function setRemoveFormValues() {
 	

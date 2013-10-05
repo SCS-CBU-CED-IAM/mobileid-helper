@@ -35,10 +35,6 @@ if ($form_request == 'default_msg') {
 /* Json decoding of the request */
 $request = json_decode($form_request);
 
-if ($request->mid_phone[0] == ' ') {
-	$request->mid_phone[0] = '+';
-}
-
 if (!isset($request->mid_msg)) {
 	$request->mid_msg = '';
 }
