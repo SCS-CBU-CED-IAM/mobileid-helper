@@ -34,15 +34,15 @@ class mobileid {
 	protected $ocsp_url;				// OCSP Url
 	
 	/* Proxy configuration */
-	protected $curl_proxy;				// HTTP (CONNECT) proxy
+	//protected $curl_proxy;				// HTTP (CONNECT) proxy
 	
 	/* Soap configuration */
 	protected $ws_url;					// WS Url
 	protected $ws_action;				// WS action
 	
 	/* parameters */
-	protected $TimeOutWSRequest  = 90;	// Timeout WS request
-	protected $TimeOutMIDRequest = 80;	// Timeout MobileID request
+	//protected $TimeOutWSRequest  = 90;	// Timeout WS request
+	//protected $TimeOutMIDRequest = 80;	// Timeout MobileID request
 	
 	protected $UserLang;				// Language
 	protected $MobileUser;				// Phone number
@@ -168,15 +168,19 @@ class mobileid {
 		$this->ap_id       = $this->mobileIdConfig->ap_id;
 		$this->ap_pwd      = $this->mobileIdConfig->ap_pwd;
 		$this->ocsp_cert   = $this->mobileIdConfig->ocsp_cert;
-		$this->curl_proxy  = $this->mobileIdConfig->curl_proxy;
+		
+		if (isset($this->mobileIdConfig->curl_proxy)) {
+			$this->curl_proxy  = $this->mobileIdConfig->curl_proxy;
+		}
+
 		$this->ws_url      = $this->mobileIdConfig->ws_url;
 		$this->ws_action   = $this->mobileIdConfig->ws_action;
 		
-		if ($this->mobileIdConfig->TimeOutWSRequest) {
+		if (isset($this->mobileIdConfig->TimeOutWSRequest)) {
 			$this->TimeOutWSRequest = (int)$this->mobileIdConfig->TimeOutWSRequest;
 		}
 
-		if ($this->mobileIdConfig->TimeOutMIDRequest) {
+		if (isset($this->mobileIdConfig->TimeOutMIDRequest)) {
 			$this->TimeOutMIDRequest = (int)$this->mobileIdConfig->TimeOutMIDRequest;
 		}
 
@@ -498,12 +502,18 @@ class mobileid {
 
 		/* HTTP protocol and stream options */
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);					// Allow redirects
-		curl_setopt($ch, CURLOPT_TIMEOUT, $this->TimeOutMIDRequest);	// Times out
+		
+		if (isset($this->TimeOutMIDRequest)) {
+			curl_setopt($ch, CURLOPT_TIMEOUT, $this->TimeOutMIDRequest);	// Times out
+		}
+
 		curl_setopt($ch, CURLOPT_POST, 1); 								// Set POST method
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 					// Return into a variable. This is IMPORTANT!
 
 		/* HTTP proxy */
-		curl_setopt($ch, CURLOPT_PROXY, $this->curl_proxy);				// Set proxy
+		if (isset($this->curl_proxy)) {
+			curl_setopt($ch, CURLOPT_PROXY, $this->curl_proxy);			// Set proxy
+		}
 
 		/* add POST body */
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $this->soap_request); 		// Add POST fields (Soap envelop)
@@ -561,6 +571,10 @@ class mobileid {
 	* @return 	boolean	true on success, false on failure
 	*/
 	private function setSoapRequest() {
+
+		if (!isset($this->TimeOutWSRequest)) {
+			$this->TimeOutWSRequest = '';
+		}
 
 		$this->soap_request = '<?xml version="1.0" encoding="UTF-8"?>
 		<soapenv:Envelope

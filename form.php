@@ -61,7 +61,7 @@ echo $app->getText('APP_SUBMIT_SUCCESS');
 * @return 	false
 */
 
-function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
+function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') {
 
 	if (strlen($mobileIdRequest->response_mss_status_code)) {
 		$msg_prob    = $app->getText('APP_ERROR_'.$mobileIdRequest->response_mss_status_code);
@@ -91,8 +91,8 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en') {
 		header('HTTP/1.0 401 '.$msg);
 
 		return;	
-	}	
-	
+	}
+
 	$msg  = "<p>".$app->getText('APP_ERROR_TITLE')."</p>";	
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$mobileIdRequest->response_mss_status_code."/etsi:_".$mobileIdRequest->response_soap_fault_subcode." -> ".$mobileIdRequest->response_status_message."</p>";
