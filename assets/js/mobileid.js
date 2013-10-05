@@ -104,7 +104,7 @@ function submitFormValues() {
 	jsonRequest = jsonRequest+',"mid_lang":"'+mid_lang+'"';
 	
 	if (mid_msg.length > 0) {
-		jsonRequest = jsonRequest+',"mid_msg":"'+mid_msg+'"';
+		jsonRequest = jsonRequest+',"mid_msg":"'+encodeURIComponent(mid_msg)+'"';
 	}
 	
 	jsonRequest = jsonRequest+'}';
