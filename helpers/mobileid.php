@@ -34,15 +34,15 @@ class mobileid {
 	protected $ocsp_url;				// OCSP Url
 	
 	/* Proxy configuration */
-	//protected $curl_proxy;				// HTTP (CONNECT) proxy
+	protected $curl_proxy;				// HTTP (CONNECT) proxy
 	
 	/* Soap configuration */
 	protected $ws_url;					// WS Url
 	protected $ws_action;				// WS action
 	
 	/* parameters */
-	//protected $TimeOutWSRequest  = 90;	// Timeout WS request
-	//protected $TimeOutMIDRequest = 80;	// Timeout MobileID request
+	protected $TimeOutWSRequest  = 90;	// Timeout WS request
+	protected $TimeOutMIDRequest = 80;	// Timeout MobileID request
 	
 	protected $UserLang;				// Language
 	protected $MobileUser;				// Phone number
