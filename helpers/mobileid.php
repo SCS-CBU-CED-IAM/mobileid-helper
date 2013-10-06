@@ -1204,7 +1204,7 @@ class mobileid {
 	*
 	* @return	string	uid
     */
-    private function getMSISDNfrom($uid, $prefix = '00') {
+    private function getMSISDNfrom($uid, $prefix = '+') {
 
         $uid = preg_replace('/\s+/', '', $uid);     	// Remove all whitespaces
         $uid = str_replace('+', '00', $uid);            // Replace all + with 00
