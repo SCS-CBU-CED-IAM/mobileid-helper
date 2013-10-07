@@ -751,6 +751,10 @@ class mobileid {
 	*/
 	private function isResponseRequestSuccess() {
 		
+		if (!isset($this->soap_response_simple_xml->soapenvBody->soapenvFault->soapenvCode->soapenvSubcode->soapenvValue)) {
+			return true;
+		}
+		
 		$fault = (string)$this->soap_response_simple_xml->soapenvBody->soapenvFault->soapenvCode->soapenvSubcode->soapenvValue;
 		
 		if (strlen($fault)) {
