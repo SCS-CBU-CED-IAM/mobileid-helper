@@ -503,8 +503,8 @@ class mobileid {
 		/* HTTP protocol and stream options */
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);					// Allow redirects
 		
-		if (isset($this->TimeOutMIDRequest)) {
-			curl_setopt($ch, CURLOPT_TIMEOUT, $this->TimeOutMIDRequest);	// Times out
+		if (isset($this->TimeOutWSRequest)) {
+			curl_setopt($ch, CURLOPT_TIMEOUT, $this->TimeOutWSRequest);	// Times out
 		}
 
 		curl_setopt($ch, CURLOPT_POST, 1); 								// Set POST method
@@ -572,8 +572,8 @@ class mobileid {
 	*/
 	private function setSoapRequest() {
 
-		if (!isset($this->TimeOutWSRequest)) {
-			$this->TimeOutWSRequest = '';
+		if (!isset($this->TimeOutMIDRequest)) {
+			$this->TimeOutMIDRequest = '';
 		}
 
 		$this->soap_request = '<?xml version="1.0" encoding="UTF-8"?>
@@ -585,7 +585,7 @@ class mobileid {
 			xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
 		  <soapenv:Body>
 			<MSS_Signature xmlns="">
-			  <mss:MSS_SignatureReq MinorVersion="1" MajorVersion="1" xmlns:mss="http://uri.etsi.org/TS102204/v1.1.2#" MessagingMode="synch" xmlns:fi="http://mss.ficom.fi/TS102204/v1.0.0#">
+			  <mss:MSS_SignatureReq MinorVersion="1" MajorVersion="1" xmlns:mss="http://uri.etsi.org/TS102204/v1.1.2#" MessagingMode="synch" TimeOut="'.$this->TimeOutMIDRequest.'" xmlns:fi="http://mss.ficom.fi/TS102204/v1.0.0#">
 				<mss:AP_Info AP_PWD="'.$this->ap_pwd.'" AP_TransID="'.$this->ap_trans_id.'" Instant="'.$this->ap_instant.'" AP_ID="'.$this->ap_id.'" />
 				<mss:MSSP_Info>
                                   <mss:MSSP_ID>
@@ -615,7 +615,6 @@ class mobileid {
 				<mss:MSS_Format>
 				  <mss:mssURI>http://uri.etsi.org/TS102204/v1.1.2#PKCS7</mss:mssURI>
 				</mss:MSS_Format>
-				<mss:TimeOut>'.$this->TimeOutWSRequest.'</mss:TimeOut>
 			  </mss:MSS_SignatureReq>
 			</MSS_Signature>
 		  </soapenv:Body>
