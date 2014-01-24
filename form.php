@@ -97,11 +97,11 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') 
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$mobileIdRequest->response_mss_status_code."/etsi:_".$mobileIdRequest->response_soap_fault_subcode." -> ".$mobileIdRequest->response_status_message."</p>";
 
-	echo $msg;
-	
 	header('Status : 400 '.$msg);
 	header('HTTP/1.0 400 '.$msg);
 
+	echo $msg;
+	
 	return;	
 }
 ?>
