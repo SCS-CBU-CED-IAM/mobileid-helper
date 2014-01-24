@@ -449,6 +449,7 @@ class mobileid {
 		
 		/* Set the AP instant */
 		$timestamp = time();
+		date_default_timezone_set('Europe/Berlin');
 		$this->ap_instant = date('Y-m-d', $timestamp).'T'.date('H:i:sP', $timestamp);		
 	}
 
