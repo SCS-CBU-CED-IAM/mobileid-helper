@@ -272,7 +272,7 @@ class mobileid {
 	* @return 	boolean	true on success, false on failure
 	*/
 	
-	public function getMsgAllowEdit() {
+	public static function getMsgAllowEdit() {
 		
 		/* New instance of the mobileID configuration class */
 		$mobileIdConfig = new mobileIdConfig();
@@ -390,7 +390,7 @@ class mobileid {
 	* @return 	string message on success, false on failure
 	*/
 	
-	public function getDefaultMsg($lang = 'en') {
+	public static function getDefaultMsg($lang = 'en') {
 		
 		if (strlen($lang) != 2) {
 			return;
@@ -411,7 +411,7 @@ class mobileid {
 	* @return 	string message on success, false on failure
 	*/
 	
-	public function getServiceProvider() {
+	public static function getServiceProvider() {
 
 		/* New instance of the mobileID configuration class */
 		$mobileIdConfig = new mobileIdConfig();
