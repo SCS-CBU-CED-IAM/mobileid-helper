@@ -19,13 +19,14 @@ class mobileid {
 	protected $mobileIdConfig;
 
 	/* Client certificate configuration */
-	protected $cert_ca;					// Bag file with the server/client issuing and root certifiates
+	protected $cert_ca;				// Bag file with the server/client issuing and root certifiates
 	protected $cert_key;				// The related key of the certificate
+	protected $cert_key_pw;				// Password to access the private key
 	protected $cert_file;				// The certificate that is allowed to access the service
 	
 	/* AP configuration */
-	protected $ap_id;					// AP UserID provided by Swisscom
-	protected $ap_pwd;					// AP Password must be present but is not validated
+	protected $ap_id;				// AP UserID provided by Swisscom
+	protected $ap_pwd;				// AP Password must be present but is not validated
 	protected $ap_instant;				// AP instant
 	protected $ap_trans_id;				// AP transaction ID
 	
@@ -37,22 +38,22 @@ class mobileid {
 	protected $curl_proxy;				// HTTP (CONNECT) proxy
 	
 	/* Soap configuration */
-	protected $ws_url;					// WS Url
+	protected $ws_url;				// WS Url
 	protected $ws_action;				// WS action
 	
 	/* parameters */
-	protected $TimeOutWSRequest  = 90;	// Timeout WS request
-	protected $TimeOutMIDRequest = 80;	// Timeout MobileID request
+	protected $TimeOutWSRequest  = 90;		// Timeout WS request
+	protected $TimeOutMIDRequest = 80;		// Timeout MobileID request
 	
 	protected $UserLang;				// Language
 	protected $MobileUser;				// Phone number
 	protected $DataToBeSigned;			// Messsage
 	
 	/* Request messages  */
-	public $mid_msg_de;					// German
-	public $mid_msg_en;					// English
-	public $mid_msg_fr;					// French
-	public $mid_msg_it;					// Italian
+	public $mid_msg_de;				// German
+	public $mid_msg_en;				// English
+	public $mid_msg_fr;				// French
+	public $mid_msg_it;				// Italian
 
 	/* Allow message edition */	
 	protected $mid_msg_allowedit = false;
@@ -165,6 +166,11 @@ class mobileid {
 		$this->cert_ca     = $this->mobileIdConfig->cert_ca;
 		$this->cert_file   = $this->mobileIdConfig->cert_file;
 		$this->cert_key    = $this->mobileIdConfig->cert_key;
+
+		if (isset($this->mobileIdConfig->cert_key_pw)) {
+			$this->cert_key_pw  = $this->mobileIdConfig->cert_key_pw;
+		}
+
 		$this->ap_id       = $this->mobileIdConfig->ap_id;
 		$this->ap_pwd      = $this->mobileIdConfig->ap_pwd;
 		$this->ocsp_cert   = $this->mobileIdConfig->ocsp_cert;
@@ -488,27 +494,30 @@ class mobileid {
 		curl_setopt($ch, CURLOPT_URL, $this->ws_url);
 		
 		/* Avoid cache */
-		curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);						// No cache
+		curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);					// No cache
 		
 		/* SSL Verification options */
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);					// SSL certificate verification
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);					// SSL certificate host name verification
 
 		/* SSL Certificate and keyfile */
-		curl_setopt($ch, CURLOPT_SSLVERSION, 3);						// Use version 3 of SSL
+		curl_setopt($ch, CURLOPT_SSLVERSION, 3);					// Use version 3 of SSL
 		curl_setopt($ch, CURLOPT_CAINFO, $this->cert_ca);				// Set the issued CA root certificates
-		curl_setopt($ch, CURLOPT_SSLCERT, $this->cert_file);			// Set the client certificate file
+		curl_setopt($ch, CURLOPT_SSLCERT, $this->cert_file);				// Set the client certificate file
 		curl_setopt($ch, CURLOPT_SSLKEY, $this->cert_key);				// Set the private key file for client authentication
-		//curl_setopt($ch, CURLOPT_SSLKEYPASSWD, '');					// No password yet
+
+		if (isset($this->cert_key_pw)) {
+			curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->cert_key_pw);		// Password to access the private key
+		}
 
 		/* HTTP protocol and stream options */
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);					// Allow redirects
 		
 		if (isset($this->TimeOutWSRequest)) {
-			curl_setopt($ch, CURLOPT_TIMEOUT, $this->TimeOutWSRequest);	// Times out
+			curl_setopt($ch, CURLOPT_TIMEOUT, $this->TimeOutWSRequest);		// Times out
 		}
 
-		curl_setopt($ch, CURLOPT_POST, 1); 								// Set POST method
+		curl_setopt($ch, CURLOPT_POST, 1); 						// Set POST method
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 					// Return into a variable. This is IMPORTANT!
 
 		/* HTTP proxy */
@@ -517,10 +526,10 @@ class mobileid {
 		}
 
 		/* add POST body */
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $this->soap_request); 		// Add POST fields (Soap envelop)
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $this->soap_request); 			// Add POST fields (Soap envelop)
 
 		/* Set custom headers */
-		$headers = array('Content-Type: text/xml', 'SOAPAction: "'.$this->ws_action.'"', 'Content-Length: '.strlen($this->soap_request) );
+		$headers = array('Content-Type: text/xml', 'SOAPAction: "'.$this->ws_action.'"');
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 		/* run the whole process. returns the requested XML structure on success, FALSE on failure */
