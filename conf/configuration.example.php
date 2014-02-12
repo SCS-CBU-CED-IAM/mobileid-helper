@@ -36,10 +36,10 @@ class mobileIdConfig {
 	public $mid_msg_service = "serviceprovider.com";        // Defines the prefix for the request messages
 
 	/* Request messages. Those will be prefixed with the Message provider */
-    public $mid_msg_de = "Erlauben Sie das testen Ihrer Mobile ID?";
-    public $mid_msg_en = "Allow testing of your Mobile ID?";
-    public $mid_msg_fr = "Authoriser le test de la Mobile ID?";
-    public $mid_msg_it = "Permetta le prove della vostra Mobile ID?";
+	public $mid_msg_de = "Erlauben Sie das testen Ihrer Mobile ID?";
+	public $mid_msg_en = "Allow testing of your Mobile ID?";
+	public $mid_msg_fr = "Authoriser le test de la Mobile ID?";
+	public $mid_msg_it = "Permetta le prove della vostra Mobile ID?";
 	
 	/* Allow message edition */	
 	public $mid_msg_allowedit = false;
