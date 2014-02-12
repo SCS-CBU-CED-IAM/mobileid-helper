@@ -68,7 +68,7 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') 
         if (!strlen($msg_prob)) {
             $msg_prob = $app->getText('APP_ERROR_DEFAULT');
         }
-		$support_txt = $app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_mss_status_code);
+		$support_txt = utf8_decode($app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_mss_status_code));
 	}
 
 	if (strlen($mobileIdRequest->response_soap_fault_subcode)) {
@@ -76,7 +76,7 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') 
         if (!strlen($msg_prob)) {
             $msg_prob = $app->getText('APP_ERROR_DEFAULT');
         }
-		$support_txt = $app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_soap_fault_subcode);
+		$support_txt = utf8_decode($app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_soap_fault_subcode));
 	}
 
 	if ($mobileIdRequest->response_error_type == 'warning') {
