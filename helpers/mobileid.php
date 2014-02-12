@@ -529,7 +529,7 @@ class mobileid {
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $this->soap_request); 			// Add POST fields (Soap envelop)
 
 		/* Set custom headers */
-		$headers = array('Content-Type: text/xml', 'SOAPAction: "'.$this->ws_action.'"', 'Content-Length: '.strlen($this->soap_request) );
+		$headers = array('Content-Type: text/xml', 'SOAPAction: "'.$this->ws_action.'"');
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 		/* run the whole process. returns the requested XML structure on success, FALSE on failure */
