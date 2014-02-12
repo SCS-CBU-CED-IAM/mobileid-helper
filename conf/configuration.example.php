@@ -14,6 +14,8 @@ class mobileIdConfig {
 	public $cert_file = "/www/conf/mycert.crt";             // The certificate that is allowed to access the service
 	public $cert_key  = "/www/conf/mycert.key";             // The related key of the certificate
 	
+	//public $cert_key_pw  = "";                            // Optional, password to access the private key
+	
 	/* AP configuration */
 	public $ap_id  = "<AP UserID>";                         // AP UserID provided by Swisscom
 	public $ap_pwd = "disabled";                            // AP Password must be present but is not validated
