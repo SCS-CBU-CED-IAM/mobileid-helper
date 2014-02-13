@@ -1052,7 +1052,7 @@ class mobileid {
 		
 		if (isset($this->mobileIdConfig->curl_proxy)) {
 			exec("openssl ocsp -CAfile ".$this->cert_ca." -issuer ".$this->ocsp_cert." -nonce -out ".$this->file_sig_cert_check." -host $this->curl_proxy -path ".$this->ocsp_url." -cert ".$this->file_sig_cert);
-		else {
+		} else {
 			exec("openssl ocsp -CAfile ".$this->cert_ca." -issuer ".$this->ocsp_cert." -nonce -out ".$this->file_sig_cert_check." -url ".$this->ocsp_url." -cert ".$this->file_sig_cert);
 		}
 
