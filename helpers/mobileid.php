@@ -1094,6 +1094,10 @@ class mobileid {
 	*/
 	private function checkRevocationStatus() {
 		
+		if (!file_exists($this->file_sig_cert_check)) {
+			return false;
+		}
+
 		$result = file($this->file_sig_cert_check);
 
 		$status = explode(':', $result[0]);
