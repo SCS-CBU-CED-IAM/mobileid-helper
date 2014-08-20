@@ -126,12 +126,12 @@ function submitFormValues() {
 		error: function(data) {
 			if (data.status == '400') {
 				jQuery('#msg_result').addClass('error');
-				jQuery('#msg_result').html(data.statusText);
+				jQuery('#msg_result').html(data.responseText);
 			}
 
 			if (data.status == '401') {
 				jQuery('#msg_result').addClass('warning');
-				jQuery('#msg_result').html(data.statusText);
+				jQuery('#msg_result').html(data.responseText);
 			}
 
 			jQuery('#msg_result').show();
