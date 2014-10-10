@@ -27,7 +27,7 @@ class mobileIdConfig {
 	public $curl_proxy = "";                                // e.g. "my-proxy.com:8080", leave empty for no proxy
 	
 	/* Soap configuration */
-	public $ws_url    = "https://soap.mobileid.swisscom.com/soap/services/MSS_SignaturePort";
+	public $ws_url    = "https://mobileid.swisscom.com/soap/services/MSS_SignaturePort";
 	public $ws_action = "#MSS_Signature";
 
 	/* Set the timeout for the request */
