@@ -501,7 +501,6 @@ class mobileid {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);					// SSL certificate host name verification
 
 		/* SSL Certificate and keyfile */
-		curl_setopt($ch, CURLOPT_SSLVERSION, 3);					// Use version 3 of SSL
 		curl_setopt($ch, CURLOPT_CAINFO, $this->cert_ca);				// Set the issued CA root certificates
 		curl_setopt($ch, CURLOPT_SSLCERT, $this->cert_file);				// Set the client certificate file
 		curl_setopt($ch, CURLOPT_SSLKEY, $this->cert_key);				// Set the private key file for client authentication
