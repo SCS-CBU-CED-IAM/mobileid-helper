@@ -3,8 +3,8 @@
  * @version     1.0.0
  * @package     mobileid-helper
  * @copyright   Copyright (C) 2012. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.md
- * @author      Swisscom (Schweiz AG)
+ * @license     Licensed under the Apache License, Version 2.0 or later; see LICENSE.md
+ * @author      Swisscom (Schweiz) AG
  */
  
 /* Requirements */
