@@ -45,6 +45,9 @@ $app = new mobileid_app();
 /* New instance of the mobileID class */
 $mobileIdRequest = new mobileid_helper($request->mid_phone, $request->mid_lang, $request->mid_msg);
 
+/* Calculate the request duration */
+$time_start = microtime(true);
+
 if (!$mobileIdRequest->profileQuery()) {
 	$mobileIdRequest->setResponseError();
 	setMobileIdError($mobileIdRequest, $app, $request->mid_lang);
@@ -59,9 +62,17 @@ if (!$mobileIdRequest->signature()) {
 
 echo $app->getText('APP_SUBMIT_SUCCESS');
 
+/* Calculate the request duration */
+$time_end = microtime(true);
+
 if (strlen($mobileIdRequest->mid_serialnumber)) {
 	echo ' '.str_replace('%s', $mobileIdRequest->mid_serialnumber, $app->getText('APP_SUBMIT_SUCCESS_SERIAL'));
 }
+
+/* Calculate the request duration */
+$time = $time_end - $time_start;
+
+echo '<br />'.str_replace('%s', number_format($time, 3), $app->getText('APP_SUBMIT_SUCCESS_DURATION'));
 
 /**
 * Mobileid set the mobileid error
