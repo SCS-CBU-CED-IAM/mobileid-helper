@@ -59,6 +59,10 @@ if (!$mobileIdRequest->signature()) {
 
 echo $app->getText('APP_SUBMIT_SUCCESS');
 
+if (strlen($mobileIdRequest->mid_serialnumber)) {
+	echo ' '.str_replace('%s', $mobileIdRequest->mid_serialnumber, $app->getText('APP_SUBMIT_SUCCESS_SERIAL'));
+}
+
 /**
 * Mobileid set the mobileid error
 *
