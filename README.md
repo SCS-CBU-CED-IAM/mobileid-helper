@@ -5,9 +5,7 @@ A helper application to check the status about a Mobile ID user.
 
 ## Requirements
 * PHP 5.3.x
-* PHP libcurl
-* PHP libxml
-* OpenSSL
+* PHP Soap
 
 ## Install
 Download the package and make it available to your web server.

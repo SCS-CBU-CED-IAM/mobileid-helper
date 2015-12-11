@@ -9,14 +9,14 @@
 
 define('__ROOT__', dirname(__FILE__)); 
 require_once(__ROOT__.'/helpers/app.php');
-require_once(__ROOT__.'/helpers/mobileid.php');
+require_once(__ROOT__.'/helpers/mobileid-helper.php');
 
 /* Get the Ajax request, Json encoded */
 $form_request = $_GET["request"];
 
 /* No request */
 if (!$form_request) {
-	return;
+	return false;
 }
 
 /* Change default message request (AJAX) */
@@ -24,12 +24,12 @@ if ($form_request == 'default_msg') {
 	$lang = $_GET["lang"];
 	
 	if (!strlen($lang)) {
-		return;
+		return false;
 	}
 
-	echo mobileid::getDefaultMsg($lang);
+	echo mobileid_helper::getDefaultMsg($lang);
 	
-	return;
+	return false;
 }
 
 /* Json decoding of the request */
@@ -43,14 +43,18 @@ if (!isset($request->mid_msg)) {
 $app = new mobileid_app();
 
 /* New instance of the mobileID class */
-$mobileIdRequest = new mobileid($request->mid_phone, $request->mid_lang, $request->mid_msg);
+$mobileIdRequest = new mobileid_helper($request->mid_phone, $request->mid_lang, $request->mid_msg);
 
-/* Send the request */
-$mobileIdRequest->sendRequest();
-
-if ($mobileIdRequest->response_error) {
+if (!$mobileIdRequest->profileQuery()) {
+	$mobileIdRequest->setResponseError();
 	setMobileIdError($mobileIdRequest, $app, $request->mid_lang);
-	return;
+	return false;
+}
+
+if (!$mobileIdRequest->signature()) {
+	$mobileIdRequest->setResponseError();
+	setMobileIdError($mobileIdRequest, $app, $request->mid_lang);
+	return false;
 }
 
 echo $app->getText('APP_SUBMIT_SUCCESS');
@@ -63,20 +67,16 @@ echo $app->getText('APP_SUBMIT_SUCCESS');
 
 function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') {
 
-	if (strlen($mobileIdRequest->response_mss_status_code)) {
-		$msg_prob    = $app->getText('APP_ERROR_'.$mobileIdRequest->response_mss_status_code);
-        if (!strlen($msg_prob)) {
-            $msg_prob = $app->getText('APP_ERROR_DEFAULT');
-        }
-		$support_txt = utf8_decode($app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_mss_status_code));
-	}
+	if (strlen($mobileIdRequest->response_error_code)) {
 
-	if (strlen($mobileIdRequest->response_soap_fault_subcode)) {
-		$msg_prob    = $app->getText('APP_ERROR_'.$mobileIdRequest->response_soap_fault_subcode);			
+		$msg_prob = $app->getText('APP_ERROR_'.$mobileIdRequest->response_error_code);
+
         if (!strlen($msg_prob)) {
             $msg_prob = $app->getText('APP_ERROR_DEFAULT');
         }
-		$support_txt = utf8_decode($app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_soap_fault_subcode));
+
+		//$support_txt = utf8_decode($app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_error_code));
+		$support_txt = $app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_error_code);
 	}
 
 	if ($mobileIdRequest->response_error_type == 'warning') {
@@ -87,21 +87,23 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') 
 		
 		echo $msg;
 
+		header('Content-Type: text/html; charset=utf-8');
 		header('Status : 401 '.$msg);
 		header('HTTP/1.0 401 '.$msg);
 
-		return;	
+		return false;	
 	}
 
 	$msg  = "<p>".$app->getText('APP_ERROR_TITLE')."</p>";	
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$mobileIdRequest->response_mss_status_code."/etsi:_".$mobileIdRequest->response_soap_fault_subcode." -> ".$mobileIdRequest->response_status_message."</p>";
 
+	header('Content-Type: text/html; charset=utf-8');
 	header('Status : 400 '.$msg);
 	header('HTTP/1.0 400 '.$msg);
 
 	echo $msg;
 	
-	return;	
+	return false;	
 }
 ?>
