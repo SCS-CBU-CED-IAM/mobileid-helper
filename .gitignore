@@ -11,3 +11,9 @@ Thumbs.db
 # PyCharm #
 .idea
 .idea/*.*
+
+# Configuration
+/conf/mycert.crt
+/conf/mycert.key
+/conf/mycertandkey.crt
+/conf/configuration.php

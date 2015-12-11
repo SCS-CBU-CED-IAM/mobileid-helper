@@ -9,12 +9,13 @@
     
 define('__ROOT__', dirname(__FILE__)); 
 require_once(__ROOT__.'/helpers/app.php');
-require_once(__ROOT__.'/helpers/mobileid.php');
+require_once(__ROOT__.'/helpers/mobileid-helper.php');
 $app = new mobileid_app();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
 	<title><?php echo $app->getText('TITLE'); ?></title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css" media="screen" />
@@ -56,8 +57,8 @@ $app = new mobileid_app();
 			<div class="control-group">
 				<label class="control-label" for="mid_msg"><strong><?php echo $app->getText('APP_MESSAGE'); ?></strong></label>
 				<div class="controls controls-row">
-					<?php echo mobileid::getServiceProvider(); ?>:&nbsp;
-					<input type="text" id="mid_msg" class="input-xxlarge" maxsize="150" placeholder="<?php echo mobileid::getDefaultMsg($app->language); ?>"<?php if (!mobileid::getMsgAllowEdit()) { ?> disabled<?php } ?>>
+					<?php echo mobileid_helper::getServiceProvider(); ?>:&nbsp;
+					<input type="text" id="mid_msg" class="input-xxlarge" maxsize="150" placeholder="<?php echo mobileid_helper::getDefaultMsg($app->language); ?>"<?php if (!mobileid_helper::getMsgAllowEdit()) { ?> disabled<?php } ?>>
 				</div>
 			</div>
 			<div class="form-actions">

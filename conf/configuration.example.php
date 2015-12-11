@@ -9,42 +9,25 @@
     
 class mobileIdConfig {
 
-	/* Client certificate configuration */
-	public $cert_ca   = "/www/conf/swisscom-ca.crt";        // Bag file with the server/client issuing and root certifiates
-	public $cert_file = "/www/conf/mycert.crt";             // The certificate that is allowed to access the service
-	public $cert_key  = "/www/conf/mycert.key";             // The related key of the certificate
-	
-	//public $cert_key_pw  = "";                            // Optional, password to access the private key
-	
 	/* AP configuration */
-	public $ap_id  = "<AP UserID>";                         // AP UserID provided by Swisscom
-	public $ap_pwd = "disabled";                            // AP Password must be present but is not validated
-	
-	/* OCSP configuration */
-	public $ocsp_cert = "/www/conf/swisscom-ocsp.crt";      // OCSP information of the signers certificate
-	
-	/* Proxy configuration */
-	public $curl_proxy = "";                                // e.g. "my-proxy.com:8080", leave empty for no proxy
-	
-	/* Soap configuration */
-	public $ws_url    = "https://mobileid.swisscom.com/soap/services/MSS_SignaturePort";
-	public $ws_action = "#MSS_Signature";
+	public $ap_id = "<AP UserID>";             					// AP ID provided by Swisscom
+	public $ap_pwd = "disabled";                            	// AP Password provided by Swisscom
+	public $ap_cert = "/www/conf/mycertandkey.crt";				// Certificate/key that is allowed to access the service
 
-	/* Set the timeout for the request */
-	//public $TimeOutWSRequest  = 90;                       // Optional, to set the timeout of the web service call
-	//public $TimeOutMIDRequest = 80;                       // Optional, to set the timeout of the mobile id call
+	/* Client certificate configuration */
+	public $ca_ssl = "/www/conf/mobileid-ca-ssl.crt";			// Location of Certificate Authority file which should be used to authenticate the identity of the remote peer
+	public $ca_mid = "/www/conf/mobileid-ca-signature.crt";		// Location of CA file which should be used during verifications
 
 	/* Message provider */
-	public $mid_msg_service = "serviceprovider.com";        // Defines the prefix for the request messages
+	public $mid_msg_service = "serviceprovider.com";        	// Defines the prefix for the request messages
 
 	/* Request messages. Those will be prefixed with the Message provider */
-	public $mid_msg_de = "Erlauben Sie das testen Ihrer Mobile ID?";
-	public $mid_msg_en = "Allow testing of your Mobile ID?";
-	public $mid_msg_fr = "Autoriser le test de la Mobile ID?";
-	public $mid_msg_it = "Permetta le prove della vostra Mobile ID?";
+    public $mid_msg_de = "Erlauben Sie das testen Ihrer Mobile ID? (#TRANSID#)";
+    public $mid_msg_en = "Allow testing of your Mobile ID? (#TRANSID#)";
+    public $mid_msg_fr = "Authoriser le test de la Mobile ID? (#TRANSID#)";
+    public $mid_msg_it = "Permetta le prove della vostra Mobile ID? (#TRANSID#)";
 	
 	/* Allow message edition */	
 	public $mid_msg_allowedit = false;
-
 }
 ?>
