@@ -18,6 +18,22 @@ Example: `git clone <URL> /var/www/mobileid`
 
 Refer to the "Mobile ID - SOAP client reference guide" document from Swisscom for more details about configuration elements.
 
+### Client based certificate authentication
+
+The file that must be specified in the configuration as `$ap_cert` refers to the local_cert and must contain both certificates, privateKey and publicKey in the same file (`cat mycert.crt mycert.key > mycertandkey.crt`).
+
+Example of content:
+````
+-----BEGIN CERTIFICATE-----
+...
+-----END CERTIFICATE-----
+-----BEGIN PRIVATE KEY-----
+...
+-----END PRIVATE KEY-----
+````
+
+Important notice: please review the content of your `mycertandkey.crt` file and be sure that the `-----BEGIN PRIVATE KEY-----` is starting on a new line.
+
 ## Getting Started
 * Open the URL of your web server -> http://webserver/mobileid/
 
