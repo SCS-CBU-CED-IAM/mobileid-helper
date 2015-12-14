@@ -91,7 +91,7 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') 
         }
 
 		//$support_txt = utf8_decode($app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_error_code));
-		$support_txt = $app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_error_code);
+		$support_txt = str_replace('#URL#', $mobileIdRequest->getUserAssistance('Mobile ID', true), $app->getText('APP_ERROR_SOLUTION_'.$mobileIdRequest->response_error_code));
 	}
 
 	if ($mobileIdRequest->response_error_type == 'warning') {
@@ -111,7 +111,7 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') 
 
 	$msg  = "<p>".$app->getText('APP_ERROR_TITLE')."</p>";	
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
-	$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$mobileIdRequest->response_mss_status_code."/etsi:_".$mobileIdRequest->response_soap_fault_subcode." -> ".$mobileIdRequest->response_status_message."</p>";
+	$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> /etsi:_".$mobileIdRequest->response_error_code." -> ".$mobileIdRequest->statusdetail."</p>";
 
 	header('Content-Type: text/html; charset=utf-8');
 	header('Status : 400 '.$msg);

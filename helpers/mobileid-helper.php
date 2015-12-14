@@ -530,7 +530,6 @@ class mobileid_helper extends mobileid {
 		
 		$this->response_error = false;
 		$this->response_error_type = false;
-		$this->response_status_message = 'Signed data verified!';
 
 		return true;		
 	}
