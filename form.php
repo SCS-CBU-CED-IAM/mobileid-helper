@@ -45,14 +45,14 @@ $app = new mobileid_app();
 /* New instance of the mobileID class */
 $mobileIdRequest = new mobileid_helper($request->mid_phone, $request->mid_lang, $request->mid_msg);
 
-/* Calculate the request duration */
-$time_start = microtime(true);
-
 if (!$mobileIdRequest->profileQuery()) {
 	$mobileIdRequest->setResponseError();
 	setMobileIdError($mobileIdRequest, $app, $request->mid_lang);
 	return false;
 }
+
+/* Calculate the request duration */
+$time_start = microtime(true);
 
 if (!$mobileIdRequest->signature()) {
 	$mobileIdRequest->setResponseError();
