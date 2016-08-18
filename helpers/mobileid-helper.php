@@ -48,6 +48,10 @@ class mobileid_helper extends mobileid {
 	public $response_error_code;	// Error status code	
 	public $response_error_message;	// Error message
 
+	/* proxy settings */
+	protected $proxy_host;                 // proxy host as string without protocol prefix (http://)
+	protected $proxy_port;                 // proxy port as number
+
 	/**
 	* mobileid_helper class
 	*
@@ -69,8 +73,15 @@ class mobileid_helper extends mobileid {
 		if (!$this->setParameters($MobileUser, $UserLang, $DataToBeSigned)) {
 			return false;
 		}
+		$options = null;
+		if (isSet($this->proxy_host)) {
+			$options = array(
+				'proxy_host' => $this->proxy_host,
+				'proxy_port' => $this->proxy_port
+			);
+		};
 		
-		parent::__construct($this->ap_id, $this->ap_pwd, $this->ap_cert, $this->ca_ssl);		
+		parent::__construct($this->ap_id, $this->ap_pwd, $this->ap_cert, $this->ca_ssl,$options);		
 	}
 
 	/**
@@ -140,7 +151,28 @@ class mobileid_helper extends mobileid {
 		if (strlen($this->mobileIdConfig->mid_msg_service)) {
 			$this->mid_msg_service = $this->mobileIdConfig->mid_msg_service;
 		}
-		
+
+		/* get proxy settings */
+		$this->proxy_host   = $this->mobileIdConfig->proxy_host;
+		$this->proxy_port  = $this->mobileIdConfig->proxy_port;
+		if ($this->proxy_host<>'') {
+		  /* verify the proxy settings */
+  		try {
+        $waitTimeoutInSeconds = 1; 
+        if($fp = fsockopen($this->proxy_host,$this->proxy_port,$errCode,$errStr,$waitTimeoutInSeconds)){
+           // It worked 
+        } else {
+           // It didn't work 
+          $this->setError('Proxy (' . $this->proxy_host . ') not reachable:' . $errStr);
+          return false;
+        }
+        fclose($fp);
+      }
+      catch (Exception $e) {
+          $this->setError('Proxy (' . $this->proxy_host . ') not reachable!');
+          return false;
+      }
+    }
 		return true;
 	}
 

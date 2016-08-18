@@ -35,5 +35,9 @@ class mobileIdConfig {
 	
 	/* Allow message edition */	
 	public $mid_msg_allowedit = false;
+
+	/* Uncomment proxy settings if needed */
+	//public $proxy_host = "138.190.132.11";
+	//public $proxy_port = "8079";
 }
 ?>
