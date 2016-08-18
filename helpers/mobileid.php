@@ -470,10 +470,12 @@ class mobileid {
             } else trigger_error('mobileid::__checkSignatureAndGetSigner: signed message ' . openssl_error_string(), E_USER_NOTICE);
 
             /* Verify signer issued by trusted CA */
-            $status = openssl_x509_checkpurpose($this->mid_certificate, X509_PURPOSE_SSL_CLIENT, array($cafile));
-            if ($status != true) {
-                $ok = false;
-                trigger_error('mobileid::__checkSignatureAndGetSigner: certificate check ' . openssl_error_string(), E_USER_NOTICE);
+            if ($ca_file<>'') {
+              $status = openssl_x509_checkpurpose($this->mid_certificate, X509_PURPOSE_SSL_CLIENT, array($cafile));
+              if ($status != true) {
+                  $ok = false;
+                  trigger_error('mobileid::__checkSignatureAndGetSigner: certificate check ' . openssl_error_string(), E_USER_NOTICE);
+              }
             }
         }
         else trigger_error('mobileid::__checkSignatureAndGetSigner: signer certificate ' . openssl_error_string(), E_USER_NOTICE);
