@@ -100,12 +100,12 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') 
 		$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
 		$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$support_txt."</p>";
 		
-		echo $msg;
 
 		header('Content-Type: text/html; charset=utf-8');
 		header('Status : 401 '.$msg);
 		header('HTTP/1.0 401 '.$msg);
 
+		echo $msg;
 		return false;	
 	}
 
