@@ -257,6 +257,7 @@ class mobileid_helper extends mobileid {
 		} else {
 			$this->DataToBeSigned = $DataToBeSigned;
 		}
+		$this->DataToBeSigned = $this->mid_msg_service . ': ' . $this->DataToBeSigned;
 
 		if (!$this->checkMobileUser()) {
 			return false;
