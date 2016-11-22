@@ -7,12 +7,12 @@
  * @author      Swisscom (Schweiz) AG
  */
 
-define('__ROOT__', dirname(__FILE__)); 
+define('__ROOT__', dirname(__FILE__));
 require_once(__ROOT__.'/helpers/app.php');
 require_once(__ROOT__.'/helpers/mobileid-helper.php');
 
 /* Get the Ajax request, Json encoded */
-$form_request = $_GET["request"];
+$form_request = get_magic_quotes_gpc() ? stripslashes($_GET['request']) : $_GET['request'];
 
 /* No request */
 if (!$form_request) {
@@ -22,13 +22,13 @@ if (!$form_request) {
 /* Change default message request (AJAX) */
 if ($form_request == 'default_msg') {
 	$lang = $_GET["lang"];
-	
+
 	if (!strlen($lang)) {
 		return false;
 	}
 
 	echo mobileid_helper::getDefaultMsg($lang);
-	
+
 	return false;
 }
 
@@ -99,17 +99,17 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') 
 		$msg  = "<p>".$app->getText('APP_ERROR_WARNING')."</p>";
 		$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
 		$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> ".$support_txt."</p>";
-		
+
 
 		header('Content-Type: text/html; charset=utf-8');
 		header('Status : 401 '.$msg);
 		header('HTTP/1.0 401 '.$msg);
 
 		echo $msg;
-		return false;	
+		return false;
 	}
 
-	$msg  = "<p>".$app->getText('APP_ERROR_TITLE')."</p>";	
+	$msg  = "<p>".$app->getText('APP_ERROR_TITLE')."</p>";
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_PROBLEM')."</strong> ".$msg_prob."</p>";
 	$msg .= "<p><strong>".$app->getText('APP_ERROR_SOLUTION')."</strong> /etsi:_".$mobileIdRequest->response_error_code." -> ".$mobileIdRequest->statusdetail."</p>";
 
@@ -118,7 +118,7 @@ function setMobileIdError($mobileIdRequest, $app, $lang = 'en', $msg_prob = '') 
 	header('HTTP/1.0 400 '.$msg);
 
 	echo $msg;
-	
-	return false;	
+
+	return false;
 }
 ?>
