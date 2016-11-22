@@ -21,15 +21,15 @@ class mobileid_helper extends mobileid {
 
 	/* AP configuration */
 	protected $ap_cert;				// Certificate/key that is allowed to access the service
-  protected $ap_cert_pwd;	  // Optional Password if $ap_cert uses an encrypted private key
+	protected $ap_cert_pwd;			// Optional Password if $ap_cert uses an encrypted private key
 
 	/* Client certificate configuration */
 	public $ca_ssl;   				// Location of Certificate Authority file which should be used to authenticate the identity of the remote peer
-	public $ca_mid;	         	// Location of CA file which should be used during verifications
+	public $ca_mid;					// Location of CA file which should be used during verifications
 
-	public $UserLang;				  // Language
+	public $UserLang;				// Language
 	public $MobileUser;				// Phone number
-	public $DataToBeSigned;		// Messsage
+	public $DataToBeSigned;			// Messsage
 
 	/* Request messages  */
 	public $mid_msg_de;				// German
@@ -81,7 +81,7 @@ class mobileid_helper extends mobileid {
 				'proxy_port' => $this->proxy_port
 			);
 		};
-    if (isSet($this->ap_cert_pwd)) $options['passphrase'] = $this->ap_cert_pwd;
+		if (isSet($this->ap_cert_pwd)) $options['passphrase'] = $this->ap_cert_pwd;
 
 		parent::__construct($this->ap_id, $this->ap_pwd, $this->ap_cert, $this->ca_ssl,$options);
 	}
@@ -124,7 +124,7 @@ class mobileid_helper extends mobileid {
 		$this->ap_id   = $this->mobileIdConfig->ap_id;
 		$this->ap_pwd  = $this->mobileIdConfig->ap_pwd;
 		$this->ap_cert = $this->mobileIdConfig->ap_cert;
-    $this->ap_cert_pwd = $this->mobileIdConfig->ap_cert_pwd;
+		$this->ap_cert_pwd = $this->mobileIdConfig->ap_cert_pwd;
 
 		/* Client certificate configuration */
 		$this->ca_ssl  = $this->mobileIdConfig->ca_ssl;
