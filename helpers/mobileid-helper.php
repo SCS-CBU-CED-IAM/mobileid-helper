@@ -30,6 +30,7 @@ class mobileid_helper extends mobileid {
 	public $UserLang;				// Language
 	public $MobileUser;				// Phone number
 	public $DataToBeSigned;			// Messsage
+    public $SignatureProfile;	    // Signature Profile
 
 	/* Request messages  */
 	public $mid_msg_de;				// German
@@ -38,7 +39,7 @@ class mobileid_helper extends mobileid {
 	public $mid_msg_it;				// Italian
 
 	/* Allow message edition */
-	protected $mid_msg_allowedit = false;
+	protected $mid_msg_allowedit = true;
 
 	/* Message provider */
 	protected $mid_msg_service;
@@ -58,7 +59,7 @@ class mobileid_helper extends mobileid {
 	*
 	*/
 
-	public function __construct($MobileUser, $UserLang = 'en', $DataToBeSigned = '') {
+	public function __construct($MobileUser, $UserLang = 'en', $DataToBeSigned = '', $SignatureProfile = '') {
 
 		/* Check the server requirements */
 		if (!$this->checkRequirements()) {
@@ -71,7 +72,7 @@ class mobileid_helper extends mobileid {
 		}
 
 		/* Set the application parameters */
-		if (!$this->setParameters($MobileUser, $UserLang, $DataToBeSigned)) {
+		if (!$this->setParameters($MobileUser, $UserLang, $DataToBeSigned, $SignatureProfile)) {
 			return false;
 		}
 		$options = null;
@@ -241,7 +242,7 @@ class mobileid_helper extends mobileid {
 	* #params	string message
 	* @return 	boolean	true on success, false on failure
 	*/
-	public function setParameters($MobileUser, $UserLang = 'en', $DataToBeSigned = '') {
+	public function setParameters($MobileUser, $UserLang = 'en', $DataToBeSigned = '', $SignatureProfile = '') {
 
 		if (!strlen($MobileUser)) {
 			$this->setError('No mobile user defined!');
@@ -251,6 +252,7 @@ class mobileid_helper extends mobileid {
 		/* Set the parameters */
 		$this->UserLang   = $UserLang;
 		$this->MobileUser = $MobileUser;
+        $this->SignatureProfile = $SignatureProfile;
 
 		/* Force the default message when edition is not allowed */
 		if (!strlen($DataToBeSigned) || !$this->mid_msg_allowedit) {
@@ -413,7 +415,7 @@ class mobileid_helper extends mobileid {
      * #params     string    location of CA file which should be used during verifications
      * @return     boolean   true on success, false on failure
      */
-    public function signature($phoneNumber = '', $message = '', $userlang = '', $cafile = '') {
+    public function signature($phoneNumber = '', $message = '', $userlang = '', $SignatureProfile = '', $cafile = '') {
 
 		if (strlen($phoneNumber)) {
 			$this->MobileUser = $phoneNumber;
@@ -426,12 +428,16 @@ class mobileid_helper extends mobileid {
 		if (strlen($userlang)) {
 			$this->userlang = $userlang;
 		}
+        
+        if (strlen($SignatureProfile)) {
+		    $this->SignatureProfile = $SignatureProfile;
+		}
 
 		if (strlen($cafile)) {
 			$this->ca_mid = $cafile;
 		}
 
-		return parent::signature($this->MobileUser, $this->DataToBeSigned, $this->UserLang, $this->ca_mid);
+		return parent::signature($this->MobileUser, $this->DataToBeSigned, $this->UserLang, $this->SignatureProfile, $this->ca_mid);
 	}
 
     /**

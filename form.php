@@ -39,11 +39,15 @@ if (!isset($request->mid_msg)) {
 	$request->mid_msg = '';
 }
 
+if (!isset($request->mid_profile)) {
+	$request->mid_profile = '';
+}
+
 /* New instance of the app class */
 $app = new mobileid_app();
 
 /* New instance of the mobileID class */
-$mobileIdRequest = new mobileid_helper($request->mid_phone, $request->mid_lang, $request->mid_msg);
+$mobileIdRequest = new mobileid_helper($request->mid_phone, $request->mid_lang, $request->mid_msg, $request->mid_profile);
 
 if (!$mobileIdRequest->profileQuery()) {
 	$mobileIdRequest->setResponseError();

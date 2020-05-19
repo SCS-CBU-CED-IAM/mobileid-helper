@@ -45,6 +45,7 @@ function setRemoveFormValues() {
 	// Set form field empty
 	jQuery('#mid_phone').val('');
 	jQuery('#mid_msg').val('');
+    jQuery('#mid_profile').val('');
 	jQuery('#msg_result').html('');
 
 	// Remove class for message result
@@ -91,10 +92,11 @@ function endSubmit() {
 function submitFormValues() {
 		
 	// Prepare the ajax/json request
-	var mid_phone = jQuery('#mid_phone').val();
-	var mid_lang  = jQuery('input:radio[name=mid_lang]:checked').val();
-	var mid_msg   = jQuery('#mid_msg').val();
-	var lang      = jQuery('#mid_lang_default').val();
+	var mid_phone   = jQuery('#mid_phone').val();
+	var mid_lang    = jQuery('input:radio[name=mid_lang]:checked').val();
+	var mid_msg     = jQuery('#mid_msg').val();
+	var lang        = jQuery('#mid_lang_default').val();
+    var mid_profile = jQuery('input:radio[name=mid_profile]:checked').val();
 
 	var jsonRequest;
 	var ajax_url;
@@ -102,6 +104,7 @@ function submitFormValues() {
 	jsonRequest = '{';
 	jsonRequest = jsonRequest+'"mid_phone":"'+mid_phone+'"';
 	jsonRequest = jsonRequest+',"mid_lang":"'+mid_lang+'"';
+    jsonRequest = jsonRequest+',"mid_profile":"'+mid_profile+'"';
 	
 	if (mid_msg.length > 0) {
 		jsonRequest = jsonRequest+',"mid_msg":"'+encodeURIComponent(mid_msg)+'"';

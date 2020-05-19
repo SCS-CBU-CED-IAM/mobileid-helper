@@ -51,6 +51,7 @@ class mobileid {
         $context = stream_context_create(array(
             'ssl' => array(
                 'verify_peer' => true,
+                'verify_peer_name' => true,
                 'allow_self_signed' => false,
                 'cafile' => $cafile
                 )
@@ -143,7 +144,7 @@ class mobileid {
     public function profileQuery($phoneNumber) {
         $params = array(
             'MajorVersion' => 1,
-            'MinorVersion' => 1,
+            'MinorVersion' => 2,
             'AP_Info' => array(
                 'AP_ID' => $this->ap_id,
                 'AP_PWD' => $this->ap_pwd,
@@ -172,7 +173,7 @@ class mobileid {
      * #params     string    location of CA file which should be used during verifications
      * @return     boolean   true on success, false on failure
      */
-    public function signature($phoneNumber, $message, $userlang, $cafile = '') {
+    public function signature($phoneNumber, $message, $userlang, $sigprofile, $cafile = '') {
         $this->mid_signature = '';
         $this->mid_MSSPtransID = '';
         $this->mid_certificate = '';
@@ -201,7 +202,7 @@ class mobileid {
                 'Encoding' => 'UTF-8',
                 '_' => $message
             ),
-            'SignatureProfile' => array('mssURI' => 'http://mid.swisscom.ch/MID/v1/AuthProfile1'),
+            'SignatureProfile' => array('mssURI' => $sigprofile),
             'AdditionalServices' => array(
                 array(
                     'Description' => array('mssURI' => 'http://mss.ficom.fi/TS102204/v1.0.0#userLang'),

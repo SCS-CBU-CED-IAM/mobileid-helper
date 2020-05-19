@@ -24,13 +24,34 @@ $app = new mobileid_app();
 </head>
 <body>
 	<div id="container">
-		<h1><?php echo $app->getText('APP_TITLE'); ?></h1>
+		<h1><img src="./assets/img/mobileid-logo-square.png" hight="40" width="40" style="vertical-align:bottom">&nbsp;<font><?php echo $app->getText('APP_TITLE'); ?></font></h1>
 		<form id="mid_form" class="form-horizontal">
 			<fieldset>
 			<div class="control-group">
 				<label class="control-label" for="mid_phone"><strong><?php echo $app->getText('APP_PHONE'); ?></strong></label>
 				<div class="controls">
 					<input type="tel" id="mid_phone" required />
+				</div>
+			</div>
+            <div class="control-group">
+				<label class="control-label" for="mid_profile"><strong><?php echo $app->getText('APP_PROFILE'); ?></strong></label>
+				<div class="controls" id="mid_profile_zone">
+        	        <label class="radio">
+						<input type="radio" name="mid_profile" id="mid_profile_authprofile1" value="http://mid.swisscom.ch/MID/v1/AuthProfile1" checked/>
+						<?php echo $app->getText('APP_PROFILE_1'); ?>
+					</label>
+					<label class="radio">
+						<input type="radio" name="mid_profile" id="mid_profile_stk" value="http://mid.swisscom.ch/STK-LoA4"/>
+						<?php echo $app->getText('APP_PROFILE_2'); ?>
+					</label>
+					<label class="radio">
+						<input type="radio" name="mid_profile" id="mid_profile_device" value="http://mid.swisscom.ch/Device-LoA4"/>
+						<?php echo $app->getText('APP_PROFILE_3'); ?>
+					</label>
+        	        <label class="radio">
+						<input type="radio" name="mid_profile" id="mid_profile_any" value="http://mid.swisscom.ch/Any-LoA4"/>
+						<?php echo $app->getText('APP_PROFILE_4'); ?>
+					</label>
 				</div>
 			</div>
 			<div class="control-group">
@@ -58,7 +79,7 @@ $app = new mobileid_app();
 				<label class="control-label" for="mid_msg"><strong><?php echo $app->getText('APP_MESSAGE'); ?></strong></label>
 				<div class="controls controls-row">
 					<?php echo mobileid_helper::getServiceProvider(); ?>:&nbsp;
-					<input type="text" id="mid_msg" class="input-xxlarge" maxsize="150" placeholder="<?php echo mobileid_helper::getDefaultMsg($app->language); ?>"<?php if (!mobileid_helper::getMsgAllowEdit()) { ?> disabled<?php } ?>>
+					<input type="text" id="mid_msg" class="input-xxlarge" maxsize="150" placeholder="<?php echo mobileid_helper::getDefaultMsg($app->language); ?>"<?php if (!mobileid_helper::getMsgAllowEdit()) { ?> enabled<?php } ?>>
 				</div>
 			</div>
 			<div class="form-actions">
